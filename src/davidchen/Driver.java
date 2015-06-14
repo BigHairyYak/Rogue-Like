@@ -16,6 +16,7 @@ import java.util.ArrayList;
 		public void init() 
 		{
 			Dungeon dungeon = new Dungeon();
+			dungeon.generate();
 			setContentPane(dungeon);
 			setSize(1280, 1024);
 		}

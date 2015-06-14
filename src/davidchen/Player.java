@@ -2,17 +2,18 @@ package davidchen;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.util.*;
 @SuppressWarnings("serial")
 public class Player extends Entity {
-	protected final double DEFAULT_MULTIPLIER = 1.0, DEFAULT_SPEED = 15.0, DEFAULT_ACCELERATION = 20, DEFAULT_JUMP_HEIGHT = 400;
+	protected final double DEFAULT_MULTIPLIER = 1.0, DEFAULT_SPEED = 10.0, DEFAULT_ACCELERATION = 20, DEFAULT_JUMP_HEIGHT = 400;
 	private KeyAdapter keyAdapter;
-	public volatile boolean isAttackingLeft = false, isAttackingRight = false, isAttackingUp = false, isAttackingDown = false;
-	public volatile boolean isAttacking = false, bombDropped = true;
+	public boolean isAttackingLeft = false, isAttackingRight = false, isAttackingUp = false, isAttackingDown = false, isAttacking = false, bombDropped = true;
 	public Rectangle bomb;
 	private String upgrade = "bomb";
-	public volatile boolean BombDamage = false;
+	public boolean BombDamage = false, movingLeft = false, movingRight = false;
+	int counter = 0;
 	Dungeon dungeon;
-	public Player(int x, int y, int width, int height, Dungeon dungeon) { //initialize
+	public Player(int x, int y, int width, int height, int health, Dungeon dungeon) { //initialize
 		super(x, y, width, height);
 		setXSpeed(0);
 		setYSpeed(0);
@@ -27,16 +28,16 @@ public class Player extends Entity {
 		boolean collision = true;
 		for (Platform platform : dungeon.RoomOrder[dungeon.roomCounter].roomPlatform)
 		{
-			if (Collision.isColliding(this, platform) && YSpeed > 0)
+			if (this.intersects(platform) && YSpeed > 0)
 			{
 				YSpeed = 0;
-				setLocation((int)(getBounds().x + (XSpeed * XMultiplier)), (int)(platform.y - height));
+				setY((int)(platform.y - height));
 				collision = true;
 			}
-			else if (Collision.isCollidingFloor(this, 800))
+			else if (this.intersects(dungeon.RoomOrder[dungeon.roomCounter].floor))
 			{
 				YSpeed = 0;
-				setLocation((int)(getBounds().x + (XSpeed * XMultiplier)), (int)(getBounds().y + (YSpeed * YMultiplier * 0.1)));
+				setY((int)(dungeon.RoomOrder[dungeon.roomCounter].floor.y-height));
 				collision = true;
 			}
 			else if (y < 600) 
@@ -54,7 +55,25 @@ public class Player extends Entity {
 		}
 		if (!collision)
 			YSpeed += DEFAULT_ACCELERATION;
+		if (this.intersects(dungeon.RoomOrder[dungeon.roomCounter].leftWall)) {
+			ArrayList<BoundingRectangle> r = createBoundingRectangles(dungeon.RoomOrder[dungeon.roomCounter].leftWall);
+			if (r.get(3).intersects(this)) {
+				YSpeed = 0;
+				setLocation((int)(getBounds().x + (XSpeed * XMultiplier)), (int)(getBounds().y + (YSpeed * YMultiplier * 0.1)));
+				setY(r.get(3).y + r.get(3).height);
+			}
+			else if (r.get(2).intersects(this)) {
+				XSpeed = 0;
+				setX(r.get(2).x + r.get(2).width);
+			}		
+			setX((int)dungeon.RoomOrder[dungeon.roomCounter].leftWall.x+dungeon.RoomOrder[dungeon.roomCounter].leftWall.width);
+		}
+		else if (this.intersects(dungeon.RoomOrder[dungeon.roomCounter].rightWall)) {
+			XSpeed = 0;
+			setX((int)dungeon.RoomOrder[dungeon.roomCounter].rightWall.x-width);
+		}
 		setLocation((int)(getBounds().x + (XSpeed * XMultiplier)), (int)(getBounds().y + (YSpeed * YMultiplier * 0.1)));
+		
 		/*for (Upgrade upgrade : Driver.upgrades){
 			if (Collision.isColliding(this, upgrade)) {
 				if (upgrade.getUpgrade() == 1) {
@@ -93,14 +112,99 @@ public class Player extends Entity {
 	public KeyAdapter getKeyAdapter() {
 		return keyAdapter;
 	}
+	public void draw(Graphics2D g) {
+		if (movingLeft) {
+			if (counter <= 3) {
+				g.drawImage(dungeon.playerWalkingLeft.get(0), x, y, dungeon);
+			}
+			else if (counter > 3){
+				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y, dungeon);
+			}
+			else if (counter <= 6) {
+				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y, dungeon);
+				counter = 0;
+			}
+		}
+		else if (movingRight) {			
+			if (counter <= 3) {				
+				g.drawImage(dungeon.playerWalkingRight.get(0), x, y, dungeon);
+			}
+			else if (counter > 3) {
+				g.drawImage(dungeon.playerWalkingRight.get(1), x, y, dungeon);
+			}
+			else if (counter <= 6) {
+				g.drawImage(dungeon.playerWalkingRight.get(1), x, y, dungeon);
+				counter = 0;
+			}
+		}
+		
+	}
+	public ArrayList<BoundingRectangle> createBoundingRectangles(Rectangle r) {
+	    ArrayList<BoundingRectangle> list = new ArrayList<BoundingRectangle>();
+	    int brWidth = 1;
+
+	    // Create left rectangle
+	    Rectangle left = new Rectangle(r.x, r.y, brWidth, r.height);
+	    list.add(new BoundingRectangle(left, "left"));
+
+	    // Create top rectangle
+	    Rectangle top = new Rectangle(r.x, r.y, r.width, brWidth);
+	    list.add(new BoundingRectangle(top, "top"));
+
+	    // Create right rectangle
+	    Rectangle right = new Rectangle(r.x + r.width - brWidth, r.y, brWidth,
+	            r.height);
+	    list.add(new BoundingRectangle(right, "right"));
+
+	    // Create bottom rectangle
+	    Rectangle bottom = new Rectangle(r.x, r.y + r.height - brWidth,
+	            r.width, brWidth);
+	    list.add(new BoundingRectangle(bottom, "bottom"));
+
+	    return list;
+	}
+
+	public class BoundingRectangle extends Rectangle{
+	    private Rectangle rectangle;
+	    private String position;
+
+	    public BoundingRectangle(Rectangle rectangle, String position) {
+	        super(rectangle);
+	    	this.rectangle = rectangle;
+	        this.position = position;
+	    }
+
+	    public Rectangle getRectangle() {
+	        return rectangle;
+	    }
+
+	    public String getPosition() {
+	        return position;
+	    }
+
+	    public boolean intersects(Rectangle r) {
+	        return rectangle.intersects(r);
+	    }
+
+	}
 	public class CustomKeyAdapter extends KeyAdapter
 	{
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_A) {
 				setXSpeed(-DEFAULT_SPEED);
+				counter++;
+				if (counter > 6)
+					counter = 0;
+				movingLeft = true;
+				movingRight = false;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_D) {
 				setXSpeed(DEFAULT_SPEED);
+				counter++;
+				if (counter > 6)
+					counter = 0;
+				movingRight = true;
+				movingLeft = false;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_W) {
 				for (Platform platform : dungeon.RoomOrder[dungeon.roomCounter].roomPlatform)
@@ -141,9 +245,11 @@ public class Player extends Entity {
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_A) {
 				setXSpeed(0);
+				counter = 0;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_D) {
 				setXSpeed(0);
+				counter = 0;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_UP) {
 			}
