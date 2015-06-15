@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 
 public class RogueLikeStart implements MouseListener
 {
-	Rectangle r, rStart, rStop;
+	Rectangle r;
 	int x, y, height, width, mouseX, mouseY;
 	String selection;
 	Color backColor;
@@ -41,7 +41,8 @@ public class RogueLikeStart implements MouseListener
 	}
 
 	//Detects collision by mouse
-	public void mouseClicked(MouseEvent e){
+	public void mouseClicked(MouseEvent e)
+	{
 		mouseX = e.getX();
 		mouseY = e.getY();
 
@@ -49,7 +50,7 @@ public class RogueLikeStart implements MouseListener
 		if(r.contains(mouseX,  mouseY))
 		{
 			buttonClicked = true;
-			System.out.println(selection+" button is clicked.");
+			System.out.println(selection + " button is clicked.");
 		}
 
 	}

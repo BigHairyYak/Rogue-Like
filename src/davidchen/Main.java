@@ -21,7 +21,6 @@ public class Main extends JApplet{
 		image = tk.getImage("Rogue legacy logo.jpg");
 		startPlay = new RogueLikeStart(560, 370, 180, 80, "Start", Color.green, this);
 		stop = new RogueLikeStart(560, 520, 180, 80, "Exit", Color.red, this);
-		setLayout(null);
 	}
 
 	//Creates an inner class that extends a JPanel

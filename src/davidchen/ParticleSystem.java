@@ -58,8 +58,8 @@ class FireSystem extends ParticleSystem //constant system, making more particles
 		{
 			if (!p.readyForRemoval)		
 			{
-				G.setColor(new Color(255, (int)(255 * p.life / p.Ilife), 0, (int)(255 * p.life / p.Ilife))); //standard flame, red-yellow
-				//G.setColor(new Color((int)(255 * p.life / p.Ilife), 0, 255, (int)(255 * p.life / p.Ilife))); //pink-blue, for funsies
+				//G.setColor(new Color(255, (int)(255 * p.life / p.Ilife), 0, (int)(255 * p.life / p.Ilife))); //standard flame, red-yellow
+				G.setColor(new Color((int)(255 * p.life / p.Ilife), 0, 255, (int)(255 * p.life / p.Ilife))); //pink-blue, for funsies
 				
 				G.fillRect((int)p.pos.x - (int)(2 * p.life), (int)p.pos.y - (int)(2 * p.life), (int)(4 * p.life), (int)(4 * p.life));	
 			}

@@ -211,7 +211,7 @@ public class Player extends Entity {
 				movingLeft = true;
 				movingRight = false;
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_D) {
+			if (e.getKeyCode() == KeyEvent.VK_D) {
 				setXSpeed(DEFAULT_SPEED);
 				counter++;
 				if (counter > 6)
@@ -219,24 +219,24 @@ public class Player extends Entity {
 				movingRight = true;
 				movingLeft = false;
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_W) {
+			if (e.getKeyCode() == KeyEvent.VK_W) {
 				for (Platform platform : dungeon.RoomOrder[dungeon.roomCounter].roomPlatform)
 					if (YSpeed == 0 || Collision.isColliding(dungeon.player, platform))
 						setYSpeed(-DEFAULT_JUMP_HEIGHT);	
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_UP) {
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				isAttackingUp = true;
 				isAttacking = true;
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				isAttackingDown = true;
 				isAttacking = true;				
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 				isAttackingLeft = true;
 				isAttacking = true;	
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				isAttackingRight = true;
 				isAttacking = true;
 			}

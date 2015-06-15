@@ -28,9 +28,26 @@ public class Dungeon extends JPanel implements ActionListener
 	static Random r = new Random();
 	Player player;
 	Timer t;
+	
+	Image background, bomb, enemy;
+	
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
 
-	public Dungeon() {
+	public Dungeon()
+	{
+		/*
+		 * IMAGE LOADING CODE
+		 */
+		try
+		{
+			background = ImageIO.read(new File("../res/background_1.png"));
+			bomb = Driver.tk.createImage("../res/bomb.gif");
+			enemy = ImageIO.read(new File("../res/bird_final.png"));
+		}
+		catch(IOException e)
+		{
+			
+		}
 		//Miscellaneous stuff
 		RoomOrder = new Room[5];
 		t = new Timer(9, this);
@@ -273,6 +290,7 @@ public class Dungeon extends JPanel implements ActionListener
 					YakEngine.createSystem(player.bomb.x+125, player.bomb.y+125, 7f, 2);
 					player.bombDropped = false;
 					player.BombDamage = true;
+					bomb = Driver.tk.createImage("../res/bomb.gif");
 					ticksSinceBombDropped = 0;
 				}
 			}
@@ -345,8 +363,16 @@ public class Dungeon extends JPanel implements ActionListener
 
 		g2.setColor(Color.BLUE);
 		if (player.bombDropped)
-			g2.draw((Shape)player.bomb);
+			g.drawImage(bomb, player.bomb.x + 125, player.bomb.y + 125, this);
 
 		YakEngine.draw(g);
+	}
+	
+	public void pauseResume()
+	{
+		if (t.isRunning())
+			t.stop();
+		else
+			t.start();
 	}
 }
