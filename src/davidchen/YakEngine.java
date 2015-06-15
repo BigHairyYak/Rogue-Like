@@ -90,7 +90,11 @@ public final class YakEngine
 			{
 				systems.add(new DustSystem(x, y, intensity));
 			}break;
-			
+			case 4:
+			{
+				systems.add(new FireSystem(x, y, intensity));
+				((FireSystem) systems.get(systems.size()-1)).mobPoof = true;
+			}break;
 			default:{}break;
 		}
 	}

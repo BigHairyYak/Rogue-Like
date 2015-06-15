@@ -23,6 +23,7 @@ public class Player extends Entity {
 		bomb = new Rectangle(0,0,0,0);
 		bombDropped = false;
 		keyAdapter = new CustomKeyAdapter();
+		this.health = health; //player needs some health value, was not set before
 		this.dungeon = dungeon;
 	}
 	public void move() 
@@ -114,34 +115,44 @@ public class Player extends Entity {
 	public KeyAdapter getKeyAdapter() {
 		return keyAdapter;
 	}
-	public void draw(Graphics2D g) {
-		if (movingLeft) {
-			if (counter <= 3) {
-				g.drawImage(dungeon.playerWalkingLeft.get(0), x, y, dungeon);
+	public void draw(Graphics2D g) 
+	{
+		if (movingLeft)
+		{
+			if (counter <= 3)
+			{
+				g.drawImage(dungeon.playerWalkingLeft.get(0), x, y+30, dungeon);
 			}
-			else if (counter > 3){
-				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y, dungeon);
+			else if (counter > 3)
+			{
+				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y+30, dungeon);
 			}
-			else if (counter <= 6) {
-				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y, dungeon);
+			else if (counter <= 6) 
+			{
+				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y+30, dungeon);
 				counter = 0;
 			}
 		}
-		else if (movingRight) {			
-			if (counter <= 3) {				
-				g.drawImage(dungeon.playerWalkingRight.get(0), x, y, dungeon);
+		else if (movingRight) 
+		{			
+			if (counter <= 3) 
+			{				
+				g.drawImage(dungeon.playerWalkingRight.get(0), x, y+30, dungeon);
 			}
-			else if (counter > 3) {
-				g.drawImage(dungeon.playerWalkingRight.get(1), x, y, dungeon);
+			else if (counter > 3)
+			{
+				g.drawImage(dungeon.playerWalkingRight.get(1), x, y+30, dungeon);
 			}
-			else if (counter <= 6) {
-				g.drawImage(dungeon.playerWalkingRight.get(1), x, y, dungeon);
+			else if (counter <= 6) 
+			{
+				g.drawImage(dungeon.playerWalkingRight.get(1), x, y+30, dungeon);
 				counter = 0;
 			}
 		}
 		
 	}
-	public ArrayList<BoundingRectangle> createBoundingRectangles(Rectangle r) {
+	public ArrayList<BoundingRectangle> createBoundingRectangles(Rectangle r)
+	{
 	    ArrayList<BoundingRectangle> list = new ArrayList<BoundingRectangle>();
 	    int brWidth = 1;
 

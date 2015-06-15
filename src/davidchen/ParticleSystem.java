@@ -46,12 +46,12 @@ class FireSystem extends ParticleSystem //constant system, making more particles
 {
 	private int refreshTrigger; //Number of particles remaining to trigger a regeneration
 	private float regenRadius;
+	public boolean mobPoof;
 	public FireSystem(int X, int Y, float intensity)
 	{
 		super(X, Y, intensity);
 		generate(x, y, I);
 	}
-	
 	public void draw(Graphics G)
 	{
 		for (Particle p: particles)
@@ -74,7 +74,7 @@ class FireSystem extends ParticleSystem //constant system, making more particles
 		 * a 'natural' flaring regeneration of the flame
 		 */
 		
-		if (particles.size() <= refreshTrigger)
+		if (particles.size() <= refreshTrigger && !mobPoof)
 		{
 			generate(x, y, regenRadius);
 		}

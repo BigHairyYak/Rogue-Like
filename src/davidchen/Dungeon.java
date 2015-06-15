@@ -24,9 +24,8 @@ public class Dungeon extends JPanel implements ActionListener
 	
 	BufferedImage playerSpriteSheet;
 	ArrayList<Image> playerWalkingLeft, playerWalkingRight, playerAttackingLeft, playerAttackingRight, playerAttackingUpLeft, playerAttackingDownLeft, playerAttackingUpRight, playerAttackingDownRight;
-	
-	boolean running;
-	Random r = new Random();
+
+	static Random r = new Random();
 	Player player;
 	Timer t;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
@@ -193,8 +192,6 @@ public class Dungeon extends JPanel implements ActionListener
 		t.start(); //starts the base game timer
 		
 		YakEngine.start(this); //starts YakEngine.EngineTimer with this as a listener
-		
-		running = true;
 	}
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -282,7 +279,12 @@ public class Dungeon extends JPanel implements ActionListener
 			for (Mob mob : RoomOrder[roomCounter].roomMobs)
 				if (player.intersects(mob))
 					ticksSinceAttacked++;
-			if (ticksSinceAttacked > 2) {
+			/*
+			 * Checks for 'safe frame' period
+			 * The player gains 40 ticks of invincibility after every hit
+			 */
+			if (ticksSinceAttacked > 40) 
+			{
 				player.lowerHealth(1);
 				ticksSinceAttacked = 0;
 			}			
@@ -291,6 +293,14 @@ public class Dungeon extends JPanel implements ActionListener
 		
 		if (e.getSource() == YakEngine.EngineTimer)
 			YakEngine.act();
+		
+		System.out.println("PLAYER HEALTH: " + player.health);
+		
+		if (player.dead)
+		{
+			t.stop();
+			YakEngine.EngineTimer.stop();
+		}
 		repaint();
 		counter++;
 	}
@@ -303,40 +313,40 @@ public class Dungeon extends JPanel implements ActionListener
 		return ticksSinceBombDropped;
 	}
 	
-	public void paintComponent(Graphics g) {
-		if (running) {
-			super.paintComponent(g);
-			Graphics2D g2 = (Graphics2D)g;
-			RoomOrder[roomCounter].draw(g);
-			//g2.drawString("" + x.velX, 0, 20);
-			//g2.drawString("" + x.velY, 0, 20);
+	public void paintComponent(Graphics g) 
+	{
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D)g;
+		RoomOrder[roomCounter].draw(g);
+		//g2.drawString("" + x.velX, 0, 20);
+		//g2.drawString("" + x.velY, 0, 20);
+
+		setBackground(Color.BLACK);
 		
-			//setBackground(Color.BLACK);
-			g2.setColor(Color.PINK);
-			player.draw(g2);
-		
-			g2.setColor(Color.BLUE);
-			if (player.isAttackingUp())
-				g2.draw((Shape)player.attackUp());
-			else if (player.isAttackingDown())
-				g2.draw((Shape)player.attackDown());
-			else if (player.isAttackingLeft())
-				g2.draw((Shape)player.attackLeft());
-			else if (player.isAttackingRight())
-				g2.draw((Shape)player.attackRight());
-		
-			/*g2.setColor(Color.BLACK);
+		g2.setColor(Color.PINK);
+		player.draw(g2);
+
+		g2.setColor(Color.BLUE);
+		if (player.isAttackingUp())
+			g2.draw((Shape)player.attackUp());
+		else if (player.isAttackingDown())
+			g2.draw((Shape)player.attackDown());
+		else if (player.isAttackingLeft())
+			g2.draw((Shape)player.attackLeft());
+		else if (player.isAttackingRight())
+			g2.draw((Shape)player.attackRight());
+
+		/*g2.setColor(Color.BLACK);
 			g2.fill((Shape)player);
-		
+
 			g2.setColor(Color.ORANGE);
 			for (Platform platform : RoomOrder[roomCounter].roomPlatform)
 				g2.fill((Shape)platform);*/
-		
-			g2.setColor(Color.BLUE);
-			if (player.bombDropped)
-				g2.draw((Shape)player.bomb);
-			
-			YakEngine.draw(g);
-		}
+
+		g2.setColor(Color.BLUE);
+		if (player.bombDropped)
+			g2.draw((Shape)player.bomb);
+
+		YakEngine.draw(g);
 	}
 }

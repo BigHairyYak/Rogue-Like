@@ -5,7 +5,7 @@ public class Entity extends Rectangle {
 	protected double XSpeed, YSpeed;
 	protected double XMultiplier, YMultiplier;
 	protected int health;
-	public double height;
+	public int height;
 	protected final double DEFAULT_MULTIPLIER = 1.0, DEFAULT_SPEED = 2.0;
 	boolean dead;
 	public Entity(int x, int y, int width, int height) { //initialize object

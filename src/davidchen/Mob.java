@@ -30,7 +30,9 @@ public class Mob extends Entity
 		velY = YSpeed * Math.sin(angle) * YMultiplier;
 
 		x += velX; y += velY;
+		if (Dungeon.r.nextInt(30) == 0)
+		{
+			YakEngine.createSystem(x + width/2, y + height/2, 2.5f, 4);
+		}
 	}
-	
-
 }
