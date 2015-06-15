@@ -13,13 +13,15 @@ public class Player extends Entity {
 	public boolean BombDamage = false, movingLeft = false, movingRight = false;
 	int counter = 0;
 	Dungeon dungeon;
-	public Player(int x, int y, int width, int height, int health, Dungeon dungeon) { //initialize
+	public Player(int x, int y, int width, int height, int health, Dungeon dungeon) 
+	{ //initialize
 		super(x, y, width, height);
 		setXSpeed(0);
 		setYSpeed(0);
 		setXMultiplier(DEFAULT_MULTIPLIER);
 		setYMultiplier(DEFAULT_MULTIPLIER);
 		bomb = new Rectangle(0,0,0,0);
+		bombDropped = false;
 		keyAdapter = new CustomKeyAdapter();
 		this.dungeon = dungeon;
 	}

@@ -94,5 +94,13 @@ public final class YakEngine
 			default:{}break;
 		}
 	}
+	/*
+	 * CLEAR
+	 * Clears all systems
+	 */
+	public static void clear()
+	{
+		systems.clear();
+	}
 }
 
