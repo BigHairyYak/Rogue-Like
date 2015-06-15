@@ -335,11 +335,13 @@ public class Dungeon extends JPanel implements ActionListener
 	{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
+		
+		setBackground(Color.BLACK);
+		g2.drawImage(background, 0, 0, 1280, 1024, this);
+	
 		RoomOrder[roomCounter].draw(g);
 		//g2.drawString("" + x.velX, 0, 20);
 		//g2.drawString("" + x.velY, 0, 20);
-
-		setBackground(Color.BLACK);
 		
 		g2.setColor(Color.PINK);
 		player.draw(g2);
@@ -353,13 +355,6 @@ public class Dungeon extends JPanel implements ActionListener
 			g2.draw((Shape)player.attackLeft());
 		else if (player.isAttackingRight())
 			g2.draw((Shape)player.attackRight());
-
-		/*g2.setColor(Color.BLACK);
-			g2.fill((Shape)player);
-
-			g2.setColor(Color.ORANGE);
-			for (Platform platform : RoomOrder[roomCounter].roomPlatform)
-				g2.fill((Shape)platform);*/
 
 		g2.setColor(Color.BLUE);
 		if (player.bombDropped)

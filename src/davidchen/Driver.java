@@ -46,6 +46,7 @@ class ViewFrame extends JFrame
 			dungeon.setVisible(true);
 			dungeon.repaint();
 			dungeon.requestFocus();
+			dungeon.t.start();
 		}
 		else 
 		{

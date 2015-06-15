@@ -240,7 +240,7 @@ public class Player extends Entity {
 				isAttackingRight = true;
 				isAttacking = true;
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_SPACE) 
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) 
 			{
 				if (upgrade.equalsIgnoreCase("Bomb")) 
 				{
@@ -251,7 +251,10 @@ public class Player extends Entity {
 					}
 				}
 			}
-			else {
+			if (e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_ESCAPE)
+				Driver.view.swapPanes();
+			else 
+			{
 				System.out.println("Unused Key");
 			}
 		}
