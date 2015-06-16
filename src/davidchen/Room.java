@@ -21,19 +21,21 @@ public class Room
 
 	public void draw(Graphics g)
 	{
-		//System.out.println("Drawing room");
 		g2 = (Graphics2D) g;
 		g2.setColor(Color.GRAY);
 		for (Platform platform : roomPlatform)
-			g2.fill((Shape)platform);
-		g2.setColor(Color.GREEN);
-			g2.fill(floor);
-			g2.fill(leftWall);
-			g2.fill(rightWall);
+			platform.draw(g);
+		g2.drawImage(Driver.view.dungeon.wall, 1260, -30, 60, 580, null);
+		g2.drawImage(Driver.view.dungeon.wall, -40, -30, 60, 580, null);
+		g2.drawImage(Driver.view.dungeon.floor, 0, 700, 1280, 400, null);
 		for (Mob m : roomMobs)
 			m.draw(g);
 	}
-	
+	public void addMobs(Mob[] newMobs)
+	{
+		for (Mob m : newMobs)
+			 roomMobs.add(m);
+	}
 	/*
 	 * UPDATE
 	 * Checks whether or not mobs are dead

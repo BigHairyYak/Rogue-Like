@@ -71,6 +71,8 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 			}
 			Driver.view.swapPanes();
 		}
+		if (exit.getBounds().contains(e.getPoint()))
+			System.exit(0);
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {}

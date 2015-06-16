@@ -28,9 +28,11 @@ public class Dungeon extends JPanel implements ActionListener
 	Player player;
 	Timer t;
 	
-	public Image background, bomb;
+	public Image background, floor, wall, platform, bomb;
 	public BufferedImage enemy;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
+	
+	int ticks;
 
 	public Dungeon()
 	{
@@ -39,6 +41,9 @@ public class Dungeon extends JPanel implements ActionListener
 		 */
 		try
 		{
+			floor = ImageIO.read(new File("../res/background_2.png"));
+			wall = ImageIO.read(new File("../res/wall.png"));
+			platform = ImageIO.read(new File("../res/platform.png"));
 			background = ImageIO.read(new File("../res/background_1.png"));
 			bomb = Driver.tk.createImage("../res/bomb.gif"); //toolkit usage is needed for proper .gif animation
 			enemy = ImageIO.read(new File("../res/bird_final.png"));
@@ -212,7 +217,9 @@ public class Dungeon extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		if (e.getSource() == t)
-		{			
+		{
+			ticks++;
+			
 			if (counter % 2 == 0) //Movement of player and mobs
 			{
 				player.move();
