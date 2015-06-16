@@ -230,7 +230,6 @@ public class Dungeon extends JPanel implements ActionListener
 			if (counter % 2 == 0) //Movement of player and mobs
 			{
 				player.move();
-				repaint();
 				for (Mob mob : RoomOrder[roomCounter].roomMobs)
 					mob.move(player);
 				if (player.x < 0 && roomCounter > 0) 
@@ -248,25 +247,25 @@ public class Dungeon extends JPanel implements ActionListener
 			if (player.isAttacking) 
 			{
 				ticksSinceAttackStart++;
-				if (player.isAttackingUp())
+				if (player.isAttackingUp)
 					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
 						if (player.attackUp().intersects(mob) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
 						}
 					}
-				else if (player.isAttackingDown())
+				else if (player.isAttackingDown)
 					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
 						if (player.attackDown().intersects(mob) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
 						}
 					}
-				else if (player.isAttackingLeft())
+				else if (player.isAttackingLeft)
 					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
 						if (player.attackLeft().intersects(mob) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
 						}
 					}
-				else if (player.isAttackingRight())
+				else if (player.isAttackingRight)
 					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
 						if (player.attackRight().intersects(mob) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
@@ -303,7 +302,6 @@ public class Dungeon extends JPanel implements ActionListener
 					YakEngine.createSystem(player.bomb.x+125, player.bomb.y+125, 7f, 2);
 					player.bombDropped = false;
 					player.BombDamage = true;
-					bomb = Driver.tk.createImage("../res/bomb.gif");
 					ticksSinceBombDropped = 0;
 				}
 			}
@@ -325,7 +323,7 @@ public class Dungeon extends JPanel implements ActionListener
 		if (e.getSource() == YakEngine.EngineTimer)
 			YakEngine.act();
 		
-		System.out.println("PLAYER HEALTH: " + player.health);
+		//System.out.println("PLAYER HEALTH: " + player.health);
 		
 		if (player.dead)
 		{
@@ -349,31 +347,29 @@ public class Dungeon extends JPanel implements ActionListener
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
-		setBackground(Color.BLACK);
 		g2.drawImage(background, 0, 0, 1280, 1024, this);
 	
-		RoomOrder[roomCounter].draw(g);
+		RoomOrder[roomCounter].draw(g2);
 		//g2.drawString("" + x.velX, 0, 20);
 		//g2.drawString("" + x.velY, 0, 20);
-		
-		g2.setColor(Color.PINK);
+	
 		player.draw(g2);
 
-		g2.setColor(Color.BLUE);
-		if (player.isAttackingUp())
+		if (player.isAttackingUp)
 			g2.draw((Shape)player.attackUp());
-		else if (player.isAttackingDown())
+		else if (player.isAttackingDown)
 			g2.draw((Shape)player.attackDown());
-		else if (player.isAttackingLeft())
+		else if (player.isAttackingLeft)
 			g2.draw((Shape)player.attackLeft());
-		else if (player.isAttackingRight())
+		else if (player.isAttackingRight)
 			g2.draw((Shape)player.attackRight());
 
-		g2.setColor(Color.BLUE);
 		if (player.bombDropped)
-			g.drawImage(bomb, player.bomb.x + 125, player.bomb.y + 125, this);
-
-		YakEngine.draw(g);
+			g2.drawImage(bomb, player.bomb.x + 125, player.bomb.y + 125, this);
+		
+		g2.drawString(""+ticks, 50, 50);
+		
+		YakEngine.draw(g2);
 	}
 	
 	public void pauseResume()

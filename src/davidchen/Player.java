@@ -88,18 +88,6 @@ public class Player extends Entity {
 			}
 		}*/
 	}
-	public boolean isAttackingLeft() {
-		return isAttackingLeft;
-	}
-	public boolean isAttackingRight() {
-		return isAttackingRight;
-	}
-	public boolean isAttackingUp() {
-		return isAttackingUp;
-	}
-	public boolean isAttackingDown() {
-		return isAttackingDown;
-	}	
 	public Rectangle attackLeft() {
 		return new Rectangle(x - 50, y - 50, width, (int) (2*height));
 	}

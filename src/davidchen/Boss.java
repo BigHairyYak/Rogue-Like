@@ -14,7 +14,13 @@ public class Boss extends Mob
 		health = 30; room = bossRoom;
 		this.x = x; this.y = y; w = width; h = height; this.health = health;
 	}
-	public void act()
+	/*
+	 * MOVE
+	 * Should technically be act()
+	 * but I'm lazy and running out
+	 * of time. 
+	 */
+	public void move()
 	{
 		switch(phase)
 		{
@@ -46,10 +52,6 @@ public class Boss extends Mob
 			}break;
 		}
 		YakEngine.createSystem(x+w/2+10, y+h/2+10, 6f * 30/health, 4);
-	}
-	public void wander()
-	{
-		
 	}
 	public void draw(Graphics g)
 	{
