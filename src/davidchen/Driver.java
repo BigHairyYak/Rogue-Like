@@ -5,14 +5,19 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Random;
 public class Driver extends JApplet
 {
 	public static ViewFrame view;
 	public static boolean gameStarted;
 	public static Toolkit tk = Toolkit.getDefaultToolkit();
 	
+	public static Random RNG;
+	
 	public void init() 
 	{
+		RNG = new Random();
+		
 		gameStarted = false;
 		view = new ViewFrame();
 		view.setVisible(true);

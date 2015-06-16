@@ -30,9 +30,8 @@ public class Room
 			g2.fill(floor);
 			g2.fill(leftWall);
 			g2.fill(rightWall);
-		g2.setColor(Color.RED);
 		for (Mob m : roomMobs)
-			g2.fill((Shape)m);
+			m.draw(g);
 	}
 	
 	/*

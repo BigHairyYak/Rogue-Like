@@ -25,12 +25,11 @@ public class Dungeon extends JPanel implements ActionListener
 	BufferedImage playerSpriteSheet;
 	ArrayList<Image> playerWalkingLeft, playerWalkingRight, playerAttackingLeft, playerAttackingRight, playerAttackingUpLeft, playerAttackingDownLeft, playerAttackingUpRight, playerAttackingDownRight;
 
-	static Random r = new Random();
 	Player player;
 	Timer t;
 	
-	Image background, bomb, enemy;
-	
+	public Image background, bomb;
+	public BufferedImage enemy;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
 
 	public Dungeon()
@@ -41,7 +40,7 @@ public class Dungeon extends JPanel implements ActionListener
 		try
 		{
 			background = ImageIO.read(new File("../res/background_1.png"));
-			bomb = Driver.tk.createImage("../res/bomb.gif");
+			bomb = Driver.tk.createImage("../res/bomb.gif"); //toolkit usage is needed for proper .gif animation
 			enemy = ImageIO.read(new File("../res/bird_final.png"));
 		}
 		catch(IOException e)
@@ -172,11 +171,11 @@ public class Dungeon extends JPanel implements ActionListener
 		//Generating Mobs; different number of Mobs and random locations
 		for (int i = 0; i < 7; i++)
 		{
-			int numOfMobs = r.nextInt(5) + 3;
+			int numOfMobs = Driver.RNG.nextInt(5) + 3;
 			System.out.println(numOfMobs);
 			for (int x = 0; x < numOfMobs; x++)
 			{
-				Mob mob = new Mob(r.nextInt(1280), r.nextInt(800), 100, 100, 2);
+				Mob mob = new Mob(Driver.RNG.nextInt(1280), Driver.RNG.nextInt(800), 100, 100, 2);
 				roomMobs.get(i).add(mob);
 			}
 		}
@@ -191,11 +190,11 @@ public class Dungeon extends JPanel implements ActionListener
 		room.add(new Room(room7Platforms, roomMobs.get(6)));
 
 		//Generating Rooms; five rooms are selected from pool and removed from list of array list to prevent duplicates
-		RoomOrder[0] = room.remove(r.nextInt(7));
-		RoomOrder[1] = room.remove(r.nextInt(6));
-		RoomOrder[2] = room.remove(r.nextInt(5));
-		RoomOrder[3] = room.remove(r.nextInt(4));
-		RoomOrder[4] = room.remove(r.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
+		RoomOrder[0] = room.remove(Driver.RNG.nextInt(7));
+		RoomOrder[1] = room.remove(Driver.RNG.nextInt(6));
+		RoomOrder[2] = room.remove(Driver.RNG.nextInt(5));
+		RoomOrder[3] = room.remove(Driver.RNG.nextInt(4));
+		RoomOrder[4] = room.remove(Driver.RNG.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
 		
 		//Reset Player Location; sets X and Y to default values
 		player.setX(0);
