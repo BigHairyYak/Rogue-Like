@@ -1,14 +1,17 @@
 package davidchen;
 
+import java.awt.Graphics;
+
 public class Boss extends Mob
 {
 	int x, y, w, h, health;
-	int phase;
+	int phase = 1;
 	Room room;
+	
 	public Boss(int x, int y, int width, int height, int health, Room bossRoom) 
 	{
 		super(x, y, width, height, health);
-		health = 20; room = bossRoom;
+		health = 30; room = bossRoom;
 		this.x = x; this.y = y; w = width; h = height; this.health = health;
 	}
 	public void act()
@@ -17,22 +20,41 @@ public class Boss extends Mob
 		{
 			case 1:
 			{
-				
+				if (Driver.RNG.nextInt(151) == 150)
+					spawn(Driver.RNG.nextInt(5) + 1);
 			}break;
 			case 2:
 			{
-				
+				if (Driver.RNG.nextInt(251) == 250)
+				{
+					x = Driver.RNG.nextInt(800) + 200;
+					y = Driver.RNG.nextInt(400) + 200;
+				}
+				if (Driver.RNG.nextInt(151) == 150)
+					spawn(Driver.RNG.nextInt(5) + 1);
 			}break;
 			case 3:
 			{
-				
+				move(Driver.view.dungeon.player);
+				if (Driver.RNG.nextInt(251) == 250)
+				{
+					x = Driver.RNG.nextInt(800) + 200;
+					y = Driver.RNG.nextInt(400) + 200;
+				}
+				if (Driver.RNG.nextInt(151) == 150)
+					spawn(Driver.RNG.nextInt(5) + 1);
 			}break;
 		}
-		YakEngine.createSystem(x+w/2, y+h/2, 15f, 4);
+		YakEngine.createSystem(x+w/2+10, y+h/2+10, 6f * 30/health, 4);
 	}
-	public void move()
+	public void wander()
 	{
 		
+	}
+	public void draw(Graphics g)
+	{
+		if (phase == 1)
+			g.drawImage(Driver.view.dungeon.boss1, x, y, w, h, null);
 	}
 	public void spawn(int amount)
 	{

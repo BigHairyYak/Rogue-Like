@@ -29,6 +29,7 @@ public class Dungeon extends JPanel implements ActionListener
 	Timer t;
 	
 	public Image background, floor, wall, platform, bomb;
+	public Image boss1, boss2, boss3;
 	public BufferedImage enemy;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
 	
@@ -47,13 +48,16 @@ public class Dungeon extends JPanel implements ActionListener
 			background = ImageIO.read(new File("../res/background_1.png"));
 			bomb = Driver.tk.createImage("../res/bomb.gif"); //toolkit usage is needed for proper .gif animation
 			enemy = ImageIO.read(new File("../res/bird_final.png"));
+			boss1 = ImageIO.read(new File("../res/skull.png"));
+			boss2 = ImageIO.read(new File("../res/skull_open.png"));
+			boss3 = ImageIO.read(new File("../res/skull_open_bigger.png"));
 		}
 		catch(IOException e)
 		{
 			
 		}
 		//Miscellaneous stuff
-		RoomOrder = new Room[5];
+		RoomOrder = new Room[6];
 		t = new Timer(9, this);
 		
 		playerWalkingLeft = new ArrayList<Image>();
@@ -201,6 +205,9 @@ public class Dungeon extends JPanel implements ActionListener
 		RoomOrder[3] = room.remove(Driver.RNG.nextInt(4));
 		RoomOrder[4] = room.remove(Driver.RNG.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
 		
+		RoomOrder[5] = new Room(room1Platforms, new ArrayList<Mob>());
+		RoomOrder[5].roomMobs.add(new Boss(760, 300, 160, 200, 30, RoomOrder[5]));
+		
 		//Reset Player Location; sets X and Y to default values
 		player.setX(0);
 		player.setY(700);
@@ -231,7 +238,7 @@ public class Dungeon extends JPanel implements ActionListener
 					roomCounter--;
 					player.x = 1280;
 				}
-				else if (player.x > 1280 && roomCounter < 4) 
+				else if (player.x > 1280 && roomCounter < 5) 
 				{
 					roomCounter++;
 					player.x = 0;
