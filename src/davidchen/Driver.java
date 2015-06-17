@@ -6,6 +6,7 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 public class Driver extends JApplet
@@ -21,7 +22,9 @@ public class Driver extends JApplet
 	public void init() 
 	{
 		RNG = new Random();
-		normalTheme = getAudioClip(getDocumentBase(), "../resources/Soundtrack_Cleanest.wav");
+		//URL normalmusic = Driver.class.getResource("../resources/soundtrack_Cleanest.wav");
+		//System.out.println(normalmusic);
+		normalTheme = getAudioClip(getDocumentBase(), "../resources/soundtrack_Cleanest.wav");
 		bossTheme = getAudioClip(getDocumentBase(), "../resources/BossMusic.wav");
 		jump = getAudioClip(getDocumentBase(), "../resources/jump.wav");
 		hurt = getAudioClip(getDocumentBase(), "../resources/hurt.wav");

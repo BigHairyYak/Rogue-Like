@@ -166,7 +166,7 @@ public class Dungeon extends JPanel implements ActionListener
 		}
 		
 		//Generating Pool of Rooms; new mobs though room platforms are the same
-		room.add(new Room(null, null));
+		//room.add(new Room(null, null));
 		room.add(new Room(room1Platforms, roomMobs.get(0)));
 		room.add(new Room(room2Platforms, roomMobs.get(1)));
 		room.add(new Room(room3Platforms, roomMobs.get(2)));
