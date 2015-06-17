@@ -86,7 +86,7 @@ public class Dungeon extends JPanel implements ActionListener
 			e.printStackTrace();
 		}
 		
-		player = new Player(0, 700, 100, 100, 20, this);
+		player = new Player(0, 700, 100, 100, 10, this);
 		
 		room1Platforms = new Platform[3];
 		room2Platforms = new Platform[3];
