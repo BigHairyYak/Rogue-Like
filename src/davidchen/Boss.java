@@ -49,8 +49,8 @@ public class Boss extends Mob
 		}
 		if (health > 0)
 		{
-			YakEngine.createSystem(x + 45, y + 90, .5f * 30/health, 4);
-			YakEngine.createSystem(x + 120, y + 90, .5f * 30/health, 4);
+			YakEngine.createSystem(x + 45, y + 90, .8f * 30/health, 4);
+			YakEngine.createSystem(x + 120, y + 90, .8f * 30/health, 4);
 		}
 		if (health <= 0)
 		{

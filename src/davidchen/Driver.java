@@ -2,6 +2,8 @@ package davidchen;
 
 import javax.swing.*;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -14,14 +16,19 @@ public class Driver extends JApplet
 	
 	public static Random RNG;
 	
+	public static AudioClip bossTheme;
+	
 	public void init() 
 	{
 		RNG = new Random();
+		 bossTheme = getAudioClip(getDocumentBase(), "../res/Soundtrack_Cleanest.wav" );
 		
 		gameStarted = false;
 		view = new ViewFrame();
 		view.setVisible(true);
 		setSize(1280, 1024);
+	
+		 //System.out.println(bossTheme);
 	}
 }
 class ViewFrame extends JFrame

@@ -1,5 +1,6 @@
 package davidchen;
 
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -25,12 +26,14 @@ public class Dungeon extends JPanel implements ActionListener
 	BufferedImage playerSpriteSheet;
 	ArrayList<Image> playerWalkingLeft, playerWalkingRight, playerAttackingLeft, playerAttackingRight, playerAttackingUpLeft, playerAttackingDownLeft, playerAttackingUpRight, playerAttackingDownRight;
 
+	 AudioClip bossTheme;
+	
 	Player player;
 	Timer t;
 	
 	public Image background, floor, wall, platform, bomb;
 	public Image boss1, boss2, boss3;
-	public BufferedImage enemy, bossEnemy;
+	public BufferedImage enemy, bossEnemy, healthBar;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
 	
 	int ticks;
@@ -52,6 +55,7 @@ public class Dungeon extends JPanel implements ActionListener
 			boss1 = ImageIO.read(new File("../res/skull.png"));
 			boss2 = ImageIO.read(new File("../res/skull_open.png"));
 			boss3 = ImageIO.read(new File("../res/skull_open_bigger.png"));
+			healthBar = ImageIO.read(new File("../res/healthbar_spritesheet.png"));
 		}
 		catch(IOException e)
 		{
@@ -60,6 +64,8 @@ public class Dungeon extends JPanel implements ActionListener
 		//Miscellaneous stuff
 		RoomOrder = new Room[6];
 		t = new Timer(9, this);
+		
+		Driver.bossTheme.play();
 		
 		playerWalkingLeft = new ArrayList<Image>();
 		playerWalkingRight = new ArrayList<Image>();
@@ -367,6 +373,8 @@ public class Dungeon extends JPanel implements ActionListener
 		else if (player.isAttackingRight)
 			g2.draw((Shape)player.attackRight());
 
+		g2.drawImage(healthBar.getSubimage(0, (int)(16.73 * (player.health/2)), 184, 17), 20, 700, 368, 34, this);
+		
 		if (player.bombDropped)
 			g2.drawImage(bomb, player.bomb.x + 125, player.bomb.y + 125, this);
 		
