@@ -20,6 +20,7 @@ public class Boss extends Mob
 	 * but I'm lazy and running out
 	 * of time. 
 	 */
+	@Override
 	public void move()
 	{
 		switch(phase)
@@ -57,6 +58,8 @@ public class Boss extends Mob
 	{
 		if (phase == 1)
 			g.drawImage(Driver.view.dungeon.boss1, x, y, w, h, null);
+		g.drawRect(x, y, w, h);
+		g.drawString("BOSS HEALTH: " + health, 50, 100);
 	}
 	public void spawn(int amount)
 	{
@@ -73,6 +76,7 @@ public class Boss extends Mob
 			newMobs[q] = new Mob(dx, dy, 100, 100, 4);
 			newMobs[q].setXMultiplier(3);
 			newMobs[q].setYMultiplier(3);
+			newMobs[q].bossSpawn = true;
 		}
 		room.addMobs(newMobs);
 	}

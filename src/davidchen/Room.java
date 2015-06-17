@@ -30,6 +30,7 @@ public class Room
 		g2.drawImage(Driver.view.dungeon.floor, 0, 700, 1280, 400, null);
 		for (Mob m : roomMobs)
 			m.draw(g);
+		g.drawString("ROOM MOBS: " + roomMobs.size(), 50, 200);
 	}
 	public void addMobs(Mob[] newMobs)
 	{

@@ -30,7 +30,7 @@ public class Dungeon extends JPanel implements ActionListener
 	
 	public Image background, floor, wall, platform, bomb;
 	public Image boss1, boss2, boss3;
-	public BufferedImage enemy;
+	public BufferedImage enemy, bossEnemy;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
 	
 	int ticks;
@@ -48,6 +48,7 @@ public class Dungeon extends JPanel implements ActionListener
 			background = ImageIO.read(new File("../res/background_1.png"));
 			bomb = Driver.tk.createImage("../res/bomb.gif"); //toolkit usage is needed for proper .gif animation
 			enemy = ImageIO.read(new File("../res/bird_final.png"));
+			bossEnemy = ImageIO.read(new File("../res/bird_final_2.png"));
 			boss1 = ImageIO.read(new File("../res/skull.png"));
 			boss2 = ImageIO.read(new File("../res/skull_open.png"));
 			boss3 = ImageIO.read(new File("../res/skull_open_bigger.png"));
@@ -79,7 +80,7 @@ public class Dungeon extends JPanel implements ActionListener
 			e.printStackTrace();
 		}
 		
-		player = new Player(0, 700, 100, 100, 10, this);
+		player = new Player(0, 700, 100, 100, 20, this);
 		
 		room1Platforms = new Platform[3];
 		room2Platforms = new Platform[3];
@@ -302,6 +303,7 @@ public class Dungeon extends JPanel implements ActionListener
 					YakEngine.createSystem(player.bomb.x+125, player.bomb.y+125, 7f, 2);
 					player.bombDropped = false;
 					player.BombDamage = true;
+					bomb = Driver.tk.createImage("../res/bomb.gif"); //resets Bomb gif
 					ticksSinceBombDropped = 0;
 				}
 			}
