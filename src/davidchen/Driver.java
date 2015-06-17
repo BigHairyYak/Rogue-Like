@@ -16,12 +16,12 @@ public class Driver extends JApplet
 	
 	public static Random RNG;
 	
-	public static AudioClip bossTheme;
+	public static AudioClip normalTheme;
 	
 	public void init() 
 	{
 		RNG = new Random();
-		 bossTheme = getAudioClip(getDocumentBase(), "../res/Soundtrack_Cleanest.wav" );
+		 normalTheme = getAudioClip(getDocumentBase(), "../res/SteinsGate.wav" );
 		
 		gameStarted = false;
 		view = new ViewFrame();

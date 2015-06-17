@@ -31,7 +31,7 @@ public class Dungeon extends JPanel implements ActionListener
 	Player player;
 	Timer t;
 	
-	public Image background, floor, wall, platform, bomb;
+	public Image background, floor, openDoor, closedDoor, wall, platform, bomb;
 	public Image boss1, boss2, boss3;
 	public BufferedImage enemy, bossEnemy, healthBar;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
@@ -46,6 +46,8 @@ public class Dungeon extends JPanel implements ActionListener
 		try
 		{
 			floor = ImageIO.read(new File("../res/background_2.png"));
+			openDoor = ImageIO.read(new File("../res/door_open.png"));
+			closedDoor = ImageIO.read(new File("../res/door_closed,png"));
 			wall = ImageIO.read(new File("../res/wall.png"));
 			platform = ImageIO.read(new File("../res/platform.png"));
 			background = ImageIO.read(new File("../res/background_1.png"));
@@ -65,7 +67,7 @@ public class Dungeon extends JPanel implements ActionListener
 		RoomOrder = new Room[6];
 		t = new Timer(9, this);
 		
-		Driver.bossTheme.play();
+		Driver.normalTheme.play();
 		
 		playerWalkingLeft = new ArrayList<Image>();
 		playerWalkingRight = new ArrayList<Image>();

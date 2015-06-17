@@ -79,7 +79,7 @@ public class Boss extends Mob
 			g.drawImage(Driver.view.dungeon.boss2, x, y, w, h, null);
 		if (phase > 2)
 			g.drawImage(Driver.view.dungeon.boss2, x, y, w, h, null);
-		g.drawRect(x, y, w, h);
+		g.drawRect(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
 		g.drawString("BOSS HEALTH: " + health, 50, 100);
 	}
 	public void spawn(int amount)
