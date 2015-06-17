@@ -70,7 +70,7 @@ public class Dungeon extends JPanel implements ActionListener
 		room1Platforms = new Platform[3];
 		room2Platforms = new Platform[3];
 		room3Platforms = new Platform[4];
-		room4Platforms = new Platform[5];
+		room4Platforms = new Platform[3];
 		room5Platforms = new Platform[5];
 		room6Platforms = new Platform[3];
 		room7Platforms = new Platform[5];
@@ -110,11 +110,9 @@ public class Dungeon extends JPanel implements ActionListener
 		room3Platforms[3] = new Platform(1050, 600, 100, 20);
 
 		//room4 platforms
-		room4Platforms[0] = new Platform(75, 575, 250, 20);
-		room4Platforms[1] = new Platform(75, 350, 350, 20);
-		room4Platforms[2] = new Platform(955, 575, 250, 20);
-		room4Platforms[3] = new Platform(855, 350, 350, 20);
-		room4Platforms[4] = new Platform(125, 150, 1030, 20);
+		room4Platforms[0] = new Platform(75, 425, 350, 20);
+		room4Platforms[1] = new Platform(855, 425, 350, 20);
+		room4Platforms[2] = new Platform(125, 225, 1030, 20);
 
 		//room5 platforms
 		room5Platforms[0] = new Platform(150, 200, 150, 20);
