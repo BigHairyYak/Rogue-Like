@@ -42,6 +42,7 @@ public class Dungeon extends JPanel implements ActionListener
 		 */
 		try
 		{
+			playerSpriteSheet = ImageIO.read(new File("../res/player.png"));
 			floor = ImageIO.read(new File("../res/background_2.png"));
 			wall = ImageIO.read(new File("../res/wall.png"));
 			platform = ImageIO.read(new File("../res/platform.png"));
@@ -54,32 +55,13 @@ public class Dungeon extends JPanel implements ActionListener
 		}
 		catch(IOException e)
 		{
-			
+			System.out.println(e);
 		}
 		//Miscellaneous stuff
 		RoomOrder = new Room[6];
-		t = new Timer(9, this);
+		t = new Timer(9, this);		
 		
-		playerWalkingLeft = new ArrayList<Image>();
-		playerWalkingRight = new ArrayList<Image>();
-		playerAttackingLeft = new ArrayList<Image>();
-		playerAttackingUpLeft = new ArrayList<Image>();
-		playerAttackingDownLeft = new ArrayList<Image>();
-		playerAttackingRight = new ArrayList<Image>();
-		playerAttackingUpRight = new ArrayList<Image>();
-		playerAttackingDownRight = new ArrayList<Image>();
-		
-		try {
-			playerSpriteSheet = ImageIO.read(new File("../res/player.png"));
-			for (int i = 0; i < 2; i++) {
-				playerWalkingRight.add(playerSpriteSheet.getSubimage(60*i, 0, 60, 47).getScaledInstance(120, 80, Image.SCALE_DEFAULT));
-				playerWalkingLeft.add(playerSpriteSheet.getSubimage(60*i, 59, 60, 47).getScaledInstance(120, 80, Image.SCALE_DEFAULT));
-			}				
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		player = new Player(0, 700, 100, 100, 10, this);
+		player = new Player(0, 700, 54, 64, 10, this);
 		
 		room1Platforms = new Platform[3];
 		room2Platforms = new Platform[3];
@@ -271,7 +253,7 @@ public class Dungeon extends JPanel implements ActionListener
 							mob.lowerHealth(1);
 						}
 					}
-				if (ticksSinceAttackStart > 25)
+				if (ticksSinceAttackStart > 33)
 				{
 					player.isAttacking = false;
 					player.isAttackingLeft = false;
@@ -353,6 +335,7 @@ public class Dungeon extends JPanel implements ActionListener
 		//g2.drawString("" + x.velX, 0, 20);
 		//g2.drawString("" + x.velY, 0, 20);
 	
+		g2.draw(player);
 		player.draw(g2);
 
 		if (player.isAttackingUp)
@@ -365,7 +348,7 @@ public class Dungeon extends JPanel implements ActionListener
 			g2.draw((Shape)player.attackRight());
 
 		if (player.bombDropped)
-			g2.drawImage(bomb, player.bomb.x + 125, player.bomb.y + 125, this);
+			g2.drawImage(bomb, player.bomb.x + player.bomb.width / 2 - 25, player.bomb.y + player.bomb.height / 2 - 25, this);
 		
 		g2.drawString(""+ticks, 50, 50);
 		
