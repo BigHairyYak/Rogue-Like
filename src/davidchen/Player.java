@@ -207,10 +207,15 @@ public class Player extends Entity {
 				movingRight = true;
 				movingLeft = false;
 			}
-			if (e.getKeyCode() == KeyEvent.VK_W) {
+			if (e.getKeyCode() == KeyEvent.VK_W) 
+			{
 				for (Platform platform : dungeon.RoomOrder[dungeon.roomCounter].roomPlatform)
 					if (YSpeed == 0 || Collision.isColliding(dungeon.player, platform))
+					{
 						setYSpeed(-DEFAULT_JUMP_HEIGHT);	
+						Driver.jump.play();
+					}
+				
 			}
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				isAttackingUp = true;

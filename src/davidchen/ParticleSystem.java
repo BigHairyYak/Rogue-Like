@@ -105,6 +105,7 @@ class FireSystem extends ParticleSystem //constant system, making more particles
 
 class BoomSystem extends ParticleSystem //works like a FireSystem, but with different velocity allocation and no regen
 {
+	boolean teleport = false;
 	public BoomSystem(int x, int y, float intensity)
 	{
 		super(x, y, intensity);
@@ -127,7 +128,8 @@ class BoomSystem extends ParticleSystem //works like a FireSystem, but with diff
 			if (!p.readyForRemoval)		
 			{
 				G.setColor(new Color(255, (int)(255 * p.life / p.Ilife), 0, (int)(255 * p.life / p.Ilife))); //standard flame, red-yellow
-				//G.setColor(new Color((int)(255 * p.life / p.Ilife), 0, 255, (int)(255 * p.life / p.Ilife))); //pink-blue, for funsies
+				if (teleport)
+					G.setColor(new Color((int)(255 * p.life / p.Ilife), 0, 255, (int)(255 * p.life / p.Ilife))); //pink-blue, for funsies
 				
 				G.fillRect((int)p.pos.x - (int)(6 * p.life), (int)p.pos.y - (int)(6 * p.life), (int)(12 * p.life), (int)(12 * p.life));	
 			}

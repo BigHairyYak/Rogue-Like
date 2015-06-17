@@ -1,10 +1,11 @@
 package davidchen;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class Boss extends Mob
 {
-	int x, y, w, h, health;
+	int x, y, width, height, health;
 	int phase = 1, explodeTime;
 	float velocity = 5;
 	Room room;
@@ -13,7 +14,7 @@ public class Boss extends Mob
 	{
 		super(x, y, width, height, health);
 		health = 30; room = bossRoom;
-		this.x = x; this.y = y; w = width; h = height; this.health = health;
+		this.x = x; this.y = y; this.width = width; this.height = height; this.health = health;
 		explodeTime = 100;
 	}
 	/*
@@ -34,6 +35,7 @@ public class Boss extends Mob
 		{
 			if (Driver.RNG.nextInt(176) == 175)
 			{
+				YakEngine.createSystem(x, y, 5f, 5);
 				x = Driver.RNG.nextInt(800) + 200;
 				y = Driver.RNG.nextInt(400) + 200;
 			}
@@ -60,35 +62,38 @@ public class Boss extends Mob
 			y += Driver.RNG.nextInt(6)-5;
 
 			if (Driver.RNG.nextInt(10) < 5)
-				YakEngine.createSystem(x + w/2 + (Driver.RNG.nextInt(61)-60), y + h/2+(Driver.RNG.nextInt(61)-60), 2.5f, 2);
+				YakEngine.createSystem(x + width/2 + (Driver.RNG.nextInt(61)-60), y + height/2+(Driver.RNG.nextInt(61)-60), 2.5f, 2);
 			
 			explodeTime--;
 		}
 		if (explodeTime <= 0)
 		{
 			dead = true;
-			YakEngine.createSystem(x + w/2, y + h/2, 8.5f, 2);
+			YakEngine.createSystem(x + width/2, y + height/2, 8.5f, 2);
 		}
 		System.out.println("BOSS ACTING");
 	}
 	public void draw(Graphics g)
 	{
 		if (phase == 1)
-			g.drawImage(Driver.view.dungeon.boss1, x, y, w, h, null);
+			g.drawImage(Driver.view.dungeon.boss1, x, y, width, height, null);
 		if (phase == 2)
-			g.drawImage(Driver.view.dungeon.boss2, x, y, w, h, null);
+			g.drawImage(Driver.view.dungeon.boss2, x, y, width, height, null);
 		if (phase > 2)
-			g.drawImage(Driver.view.dungeon.boss2, x, y, w, h, null);
-		g.drawRect(getBounds().x, getBounds().y, getBounds().width, getBounds().height);
+			g.drawImage(Driver.view.dungeon.boss2, x, y, width, height, null);
+		g.drawRect(x, y, width, height);
 		g.drawString("BOSS HEALTH: " + health, 50, 100);
+		
+		g.drawImage(Driver.view.dungeon.healthBar.getSubimage(0, (int)(17 * (health/3)), 184, 14), 820, 750, 368, 34, null);
+		
 	}
 	public void spawn(int amount)
 	{
 		Mob[] newMobs = new Mob[amount];
 		for (int q = 0; q < amount; q++)
 		{
-			int dx = x + w/2 + (Driver.RNG.nextInt(201)-200);
-			int dy = y + h/2 + (Driver.RNG.nextInt(201)-200);
+			int dx = x + width/2 + (Driver.RNG.nextInt(201)-200);
+			int dy = y + height/2 + (Driver.RNG.nextInt(201)-200);
 			
 			/*
 			 * Creates new mobs that are twice as fast
@@ -101,6 +106,10 @@ public class Boss extends Mob
 			YakEngine.createSystem(dx, dy, 1.5f, 2);
 		}
 		room.addMobs(newMobs);
+	}
+	public Rectangle getBounds()
+	{
+		return new Rectangle(x, y, width, height);
 	}
 	public void lowerHealth(int increment)
 	{

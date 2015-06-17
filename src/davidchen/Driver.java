@@ -11,19 +11,25 @@ import java.util.Random;
 public class Driver extends JApplet
 {
 	public static ViewFrame view;
-	public static boolean gameStarted;
+	public static boolean gameStarted, gameEnded;
 	public static Toolkit tk = Toolkit.getDefaultToolkit();
 	
 	public static Random RNG;
 	
-	public static AudioClip normalTheme;
+	public static AudioClip normalTheme, bossTheme, jump, hurt;
 	
 	public void init() 
 	{
 		RNG = new Random();
-		 normalTheme = getAudioClip(getDocumentBase(), "../res/SteinsGate.wav" );
+		normalTheme = getAudioClip(getDocumentBase(), "../resources/Soundtrack_Cleanest.wav");
+		bossTheme = getAudioClip(getDocumentBase(), "../resources/BossMusic.wav");
+		jump = getAudioClip(getDocumentBase(), "../resources/jump.wav");
+		hurt = getAudioClip(getDocumentBase(), "../resources/hurt.wav");
+		System.out.println(normalTheme);
+		normalTheme.loop();
 		
 		gameStarted = false;
+		gameEnded = false;
 		view = new ViewFrame();
 		view.setVisible(true);
 		setSize(1280, 1024);

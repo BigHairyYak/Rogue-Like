@@ -95,6 +95,11 @@ public final class YakEngine
 				systems.add(new FireSystem(x, y, intensity));
 				((FireSystem) systems.get(systems.size()-1)).mobPoof = true;
 			}break;
+			case 5:
+			{
+				systems.add(new BoomSystem(x, y, intensity));
+				((BoomSystem) systems.get(systems.size()-1)).teleport = true;
+			}
 			default:{}break;
 		}
 	}

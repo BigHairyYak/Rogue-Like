@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class PausePanel extends JPanel implements ActionListener, MouseListener
 {
 	KevButton startResume, exit;
-	public Image background;
+	public Image background, izudu;
 	static Image button;
 	public PausePanel()
 	{
@@ -28,8 +28,9 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 		
 		try
 		{
-			background = ImageIO.read(new File("../res/background_2.png"));
-			button = ImageIO.read(new File("../res/background_1.png"));
+			background = ImageIO.read(new File("../resources/background_2.png"));
+			button = ImageIO.read(new File("../resources/background_1.png"));
+			izudu = ImageIO.read(new File("../resources/izudu.png"));
 		}
 		catch (IOException e){}
 		
@@ -47,6 +48,11 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 		g.drawImage(background, 0, 0, 1280, 1024, this);
 		startResume.draw(g);
 		exit.draw(g);
+		g.drawImage(izudu, 1050, 750, 250, 250, this);
+		g.setFont(g.getFont().deriveFont(40f));
+		g.drawString("SUPER ADVENTURE GAME", 375, 120);
+		g.setFont(g.getFont().deriveFont(15f));
+		g.drawString("Noah Bock, David Chen, Kevin Guo, and Sam Yakovlev", 20, 970);
 		YakEngine.draw(g);
 	}
 	@Override
@@ -55,6 +61,8 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 		//System.out.println("tick");
 		if (Driver.gameStarted == true)
 			startResume.function = "RESUME";
+		if (Driver.gameEnded == true)
+			startResume.function = "RESTART";
 		YakEngine.act();
 		repaint(); 
 	}
@@ -66,6 +74,14 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 		{
 			if (Driver.gameStarted == false)
 			{
+				Driver.gameStarted = true;
+				Driver.view.dungeon.generate();
+				Driver.bossTheme.stop();
+				//Driver.normalTheme.loop();
+			}
+			if (Driver.gameEnded == true)
+			{
+				Driver.gameEnded = false;
 				Driver.gameStarted = true;
 				Driver.view.dungeon.generate();
 			}
