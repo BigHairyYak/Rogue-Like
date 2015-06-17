@@ -19,7 +19,7 @@ public class Dungeon extends JPanel implements ActionListener
 	ArrayList<Room> room = new ArrayList<Room>();
 	ArrayList<ArrayList<Mob>> roomMobs = new ArrayList<ArrayList<Mob>>();
 	ArrayList<Mob> roomMob0, roomMob1, roomMob2, roomMob3, roomMob4, roomMob5, roomMob6;
-	Platform[] room1Platforms, room2Platforms, room3Platforms, room4Platforms, room5Platforms, room6Platforms, room7Platforms; 
+	Platform[] room0Platforms, room1Platforms, room2Platforms, room3Platforms, room4Platforms, room5Platforms, room6Platforms, room7Platforms; 
 	BufferedImage playerSpriteSheet;
 	AudioClip bossTheme;
 	Player player;
@@ -27,7 +27,7 @@ public class Dungeon extends JPanel implements ActionListener
 	
 	boolean bossBattle = false;
 	
-	public Image background, floor, openDoor, closedDoor, wall, platform, bomb;
+	public Image background, floor, openDoor, closedDoor, wall, platform, bomb, wasd, arrowkeys, spacebar;
 	public Image boss1, boss2, boss3;
 	public BufferedImage enemy, bossEnemy, healthBar;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked, ticks;
@@ -51,6 +51,9 @@ public class Dungeon extends JPanel implements ActionListener
 			boss3 = ImageIO.read(new File("../resources/skull_open_bigger.png"));
 			healthBar = ImageIO.read(new FileInputStream(new File("../resources/health.PNG")));
 			playerSpriteSheet = ImageIO.read(new File("../resources/player.png"));
+			wasd = ImageIO.read(new File("../resources/wasd.png"));
+			arrowkeys = ImageIO.read(new File("../resources/arrowkeys.png"));
+			spacebar = ImageIO.read(new File("../resources/spacebar.png"));
 		}
 		catch(IOException e)
 		{
@@ -60,13 +63,14 @@ public class Dungeon extends JPanel implements ActionListener
 		System.out.println("BOSS ENEMY: " + bossEnemy);
 		//System.exit(0);
 		//Miscellaneous stuff
-		RoomOrder = new Room[6];
+		RoomOrder = new Room[7];
 		t = new Timer(9, this);
 		
 		//Driver.normalTheme.play();
 		
 		player = new Player(0, 700, 54, 64, 10, this);
 		
+		room0Platforms = new Platform[1];
 		room1Platforms = new Platform[3];
 		room2Platforms = new Platform[3];
 		room3Platforms = new Platform[4];
@@ -93,6 +97,8 @@ public class Dungeon extends JPanel implements ActionListener
 		roomMobs.add(roomMob5);
 		roomMobs.add(roomMob6);
 		
+		
+		room0Platforms[0] = new Platform(0, 0, 1280, 20);
 		//room1 platforms
 		room1Platforms[0] = new Platform(50, 600, 250, 20);
 		room1Platforms[1] = new Platform(400, 400, 400, 20);
@@ -166,7 +172,6 @@ public class Dungeon extends JPanel implements ActionListener
 		}
 		
 		//Generating Pool of Rooms; new mobs though room platforms are the same
-		room.add(new Room(null, null));
 		room.add(new Room(room1Platforms, roomMobs.get(0)));
 		room.add(new Room(room2Platforms, roomMobs.get(1)));
 		room.add(new Room(room3Platforms, roomMobs.get(2)));
@@ -176,14 +181,15 @@ public class Dungeon extends JPanel implements ActionListener
 		room.add(new Room(room7Platforms, roomMobs.get(6)));
 
 		//Generating Rooms; five rooms are selected from pool and removed from list of array list to prevent duplicates
-		RoomOrder[0] = room.remove(Driver.RNG.nextInt(7));
-		RoomOrder[1] = room.remove(Driver.RNG.nextInt(6));
-		RoomOrder[2] = room.remove(Driver.RNG.nextInt(5));
-		RoomOrder[3] = room.remove(Driver.RNG.nextInt(4));
-		RoomOrder[4] = room.remove(Driver.RNG.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
+		RoomOrder[0] = new Room(room0Platforms, new ArrayList<Mob>());
+		RoomOrder[1] = room.remove(Driver.RNG.nextInt(7));
+		RoomOrder[2] = room.remove(Driver.RNG.nextInt(6));
+		RoomOrder[3] = room.remove(Driver.RNG.nextInt(5));
+		RoomOrder[4] = room.remove(Driver.RNG.nextInt(4));
+		RoomOrder[5] = room.remove(Driver.RNG.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
 		
-		RoomOrder[5] = new Room(room1Platforms, new ArrayList<Mob>());
-		RoomOrder[5].roomMobs.add(new Boss(430, 150, 160, 200, 5000 /*this number is irrelevant*/, RoomOrder[5]));
+		RoomOrder[6] = new Room(room1Platforms, new ArrayList<Mob>());
+		RoomOrder[6].roomMobs.add(new Boss(430, 150, 160, 200, 5000 /*this number is irrelevant*/, RoomOrder[5]));
 		
 		//Reset Player Location; sets X and Y to default values
 		player.setX(0);
@@ -223,7 +229,7 @@ public class Dungeon extends JPanel implements ActionListener
 					roomCounter--;
 					player.x = 1280;
 				}
-				else if (player.x > 1280 && roomCounter < 5) 
+				else if (player.x > 1280 && roomCounter < 6) 
 				{
 					roomCounter++;
 					YakEngine.clear();
@@ -358,7 +364,18 @@ public class Dungeon extends JPanel implements ActionListener
 		g2.draw(player);
 		player.draw(g2);
 		g2.drawLine(0, 800, 1024, 800);
-
+		
+		g.setFont(g.getFont().deriveFont(18f));
+		
+		if (roomCounter == 0) {
+			g.drawString("Movement", 255, 300);
+			g.drawString("Attack", 575, 300);
+			g.drawString("Use Item", 900, 300);
+			g2.drawImage(wasd, 200, 325, 200, 150, this);
+			g2.drawImage(arrowkeys, 500, 300, 200, 200, this);
+			g2.drawImage(spacebar, 800, 400, 300, 50, this);
+		}
+		
 		if (player.isAttackingUp)
 			g2.draw((Shape)player.attackUp());
 		else if (player.isAttackingDown)
