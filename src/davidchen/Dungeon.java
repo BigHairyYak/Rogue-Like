@@ -105,8 +105,8 @@ public class Dungeon extends JPanel implements ActionListener
 
 		//room3 platforms
 		room3Platforms[0] = new Platform(50, 600, 100, 20);
-		room3Platforms[1] = new Platform(350, 400, 500, 20);
-		room3Platforms[2] = new Platform(450, 250, 300, 20);
+		room3Platforms[1] = new Platform(390, 400, 500, 20);
+		room3Platforms[2] = new Platform(490, 250, 300, 20);
 		room3Platforms[3] = new Platform(1050, 600, 100, 20);
 
 		//room4 platforms
@@ -160,7 +160,7 @@ public class Dungeon extends JPanel implements ActionListener
 		}
 		
 		//Generating Pool of Rooms; new mobs though room platforms are the same
-		room.add(new Room(null, null));
+		//room.add(new Room(null, null));
 		room.add(new Room(room1Platforms, roomMobs.get(0)));
 		room.add(new Room(room2Platforms, roomMobs.get(1)));
 		room.add(new Room(room3Platforms, roomMobs.get(2)));
@@ -370,7 +370,7 @@ public class Dungeon extends JPanel implements ActionListener
 		
 		g.setFont(g.getFont().deriveFont(18f));
 		g.setColor(Color.ORANGE);
-		g.drawString("USE WASD TO MOVE!   -   USE THE ARROW KEYS TO SWING YOUR SWORD AND SPACE TO DROP BOMBS! BOMBS DON'T HURT!   -   ENJOY!", 20, 930);
+		g.drawString("USE WASD TO MOVE!   -   USE THE ARROW KEYS TO SWING YOUR SWORD!   -   USE SPACE TO DROP BOMBS! - BOMBS DON'T HURT YOU!", 20, 930);
 		
 		g.setFont(g.getFont().deriveFont(40f));
 		g2.drawString("" + Math.round(((double)ticks)/90.00 * 100.0)/100.0 + "s", 550, 800);
