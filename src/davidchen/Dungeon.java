@@ -74,7 +74,7 @@ public class Dungeon extends JPanel implements ActionListener
 		room1Platforms = new Platform[3];
 		room2Platforms = new Platform[3];
 		room3Platforms = new Platform[4];
-		room4Platforms = new Platform[5];
+		room4Platforms = new Platform[3];
 		room5Platforms = new Platform[5];
 		room6Platforms = new Platform[3];
 		room7Platforms = new Platform[5];
@@ -105,28 +105,22 @@ public class Dungeon extends JPanel implements ActionListener
 		room1Platforms[2] = new Platform(900, 200, 250, 20);
 
 		//room2 platforms
-
 		room2Platforms[0] = new Platform(50, 300, 400, 20);
 		room2Platforms[1] = new Platform(500, 550, 200, 20);
 		room2Platforms[2] = new Platform(750, 300, 400, 20);
 
 		//room3 platforms
-
 		room3Platforms[0] = new Platform(50, 600, 100, 20);
-		room3Platforms[1] = new Platform(350, 400, 500, 20);
-		room3Platforms[2] = new Platform(450, 250, 300, 20);
+		room3Platforms[1] = new Platform(390, 400, 500, 20);
+		room3Platforms[2] = new Platform(490, 250, 300, 20);
 		room3Platforms[3] = new Platform(1050, 600, 100, 20);
 
 		//room4 platforms
-
-		room4Platforms[0] = new Platform(75, 575, 250, 20);
-		room4Platforms[1] = new Platform(75, 350, 350, 20);
-		room4Platforms[2] = new Platform(955, 575, 250, 20);
-		room4Platforms[3] = new Platform(855, 350, 350, 20);
-		room4Platforms[4] = new Platform(125, 150, 1030, 20);
+		room4Platforms[0] = new Platform(75, 425, 350, 20);
+		room4Platforms[1] = new Platform(855, 425, 350, 20);
+		room4Platforms[2] = new Platform(125, 225, 1030, 20);
 
 		//room5 platforms
-
 		room5Platforms[0] = new Platform(150, 200, 150, 20);
 		room5Platforms[1] = new Platform(150, 600, 150, 20);
 		room5Platforms[2] = new Platform(565, 400, 150, 20);
@@ -134,13 +128,11 @@ public class Dungeon extends JPanel implements ActionListener
 		room5Platforms[4] = new Platform(980, 200, 150, 20);
 		
 		//room6 platforms
-
 		room6Platforms[0] = new Platform(980, 600, 250, 20);
 		room6Platforms[1] = new Platform(480, 400, 400, 20);
 		room6Platforms[2] = new Platform(130, 200, 250, 20);
 
 		//room7 platforms
-
 		room7Platforms[0] = new Platform(150, 200, 150, 20);
 		room7Platforms[1] = new Platform(150, 600, 150, 20);
 		room7Platforms[2] = new Platform(565, 400, 150, 20);
@@ -393,7 +385,7 @@ public class Dungeon extends JPanel implements ActionListener
 		
 		g.setFont(g.getFont().deriveFont(18f));
 		g.setColor(Color.ORANGE);
-		g.drawString("USE WASD TO MOVE!   -   USE THE ARROW KEYS TO SWING YOUR SWORD AND SPACE TO DROP BOMBS! BOMBS DON'T HURT!   -   ENJOY!", 20, 930);
+		g.drawString("USE WASD TO MOVE!   -   USE THE ARROW KEYS TO SWING YOUR SWORD!   -   USE SPACE TO DROP BOMBS! - BOMBS DON'T HURT YOU!", 20, 930);
 		
 		g.setFont(g.getFont().deriveFont(40f));
 		g2.drawString("" + Math.round(((double)ticks)/90.00 * 100.0)/100.0 + "s", 550, 800);
