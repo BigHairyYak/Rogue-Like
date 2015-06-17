@@ -1,6 +1,7 @@
 package davidchen;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 @SuppressWarnings("serial")
@@ -8,6 +9,8 @@ public class Mob extends Entity
 {
 	double angle = 0;
 	double velX, velY;
+	
+	boolean bossSpawn = false;
 	
 	int cycle;
 	
@@ -30,8 +33,14 @@ public class Mob extends Entity
 			directionalX = x + 110;
 			directionalW = -110;
 		}
-		g.drawImage(Driver.view.dungeon.enemy.getSubimage((int)(cycle%5 * 110.2), (int)(cycle/5 * 101.33), 110, 101) //subimage area
+		if (!bossSpawn)
+			g.drawImage(Driver.view.dungeon.enemy.getSubimage((int)(cycle%5 * 110.2), (int)(cycle/5 * 101.33), 110, 101) //subimage area
 				, directionalX, y, directionalW, 101, null); //drawing coordinates
+		
+		else
+			g.drawImage(Driver.view.dungeon.bossEnemy.getSubimage((int)(cycle%5 * 110.2), (int)(cycle/5 * 101.33), 110, 101) //subimage area
+				, directionalX, y, directionalW, 101, null); //drawing coordinates)
+		g.drawRect(x, y, width, height);
 	}
 	
 	/*

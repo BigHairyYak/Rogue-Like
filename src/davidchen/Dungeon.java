@@ -30,7 +30,7 @@ public class Dungeon extends JPanel implements ActionListener
 	
 	public Image background, floor, wall, platform, bomb;
 	public Image boss1, boss2, boss3;
-	public BufferedImage enemy;
+	public BufferedImage enemy, bossEnemy;
 	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
 	
 	int ticks;
@@ -49,6 +49,7 @@ public class Dungeon extends JPanel implements ActionListener
 			background = ImageIO.read(new File("../res/background_1.png"));
 			bomb = Driver.tk.createImage("../res/bomb.gif"); //toolkit usage is needed for proper .gif animation
 			enemy = ImageIO.read(new File("../res/bird_final.png"));
+			bossEnemy = ImageIO.read(new File("../res/bird_final_2.png"));
 			boss1 = ImageIO.read(new File("../res/skull.png"));
 			boss2 = ImageIO.read(new File("../res/skull_open.png"));
 			boss3 = ImageIO.read(new File("../res/skull_open_bigger.png"));
@@ -136,19 +137,6 @@ public class Dungeon extends JPanel implements ActionListener
 		room7Platforms[2] = new Platform(565, 400, 150, 20);
 		room7Platforms[3] = new Platform(980, 600, 150, 20);
 		room7Platforms[4] = new Platform(980, 200, 150, 20);
-		
-		//testing room to determine cause of room speed differences
-		/*Platform[] testRoom = new Platform[10];
-		testRoom[0] = new Platform(0, 0, 0, 0);
-		testRoom[1] = new Platform(0, 0, 0, 0);
-		testRoom[2] = new Platform(0, 0, 0, 0);
-		testRoom[3] = new Platform(0, 0, 0, 0);
-		testRoom[4] = new Platform(0, 0, 0, 0);
-		testRoom[5] = new Platform(0, 0, 0, 0);
-		testRoom[6] = new Platform(0, 0, 0, 0);
-		testRoom[7] = new Platform(0, 0, 0, 0);
-		testRoom[8] = new Platform(0, 0, 0, 0);
-		testRoom[9] = new Platform(0, 0, 0, 0);*/
 	}
 	public void generate() 
 	{
@@ -187,8 +175,8 @@ public class Dungeon extends JPanel implements ActionListener
 		RoomOrder[3] = room.remove(Driver.RNG.nextInt(4));
 		RoomOrder[4] = room.remove(Driver.RNG.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
 		
-		RoomOrder[5] = new Room(room1Platforms, new ArrayList<Mob>());
-		RoomOrder[5].roomMobs.add(new Boss(760, 300, 160, 200, 30, RoomOrder[5]));
+		RoomOrder[0] = new Room(room1Platforms, new ArrayList<Mob>());
+		RoomOrder[0].roomMobs.add(new Boss(760, 300, 160, 200, 50, RoomOrder[0]));
 		
 		//Reset Player Location; sets X and Y to default values
 		player.setX(0);
@@ -212,8 +200,17 @@ public class Dungeon extends JPanel implements ActionListener
 			if (counter % 2 == 0) //Movement of player and mobs
 			{
 				player.move();
-				for (Mob mob : RoomOrder[roomCounter].roomMobs)
-					mob.move(player);
+				//for (Mob mob : RoomOrder[roomCounter].roomMobs)
+					//mob.move(player);
+				/*
+				 * SWITCHED FROM FOR EACH LOOP TO REGULAR FOR LOOP
+				 * This prevents a ConcurrentModificationException
+				 * from being thrown by the boss's spawn() method
+				 */
+				for (int q = 0; q < RoomOrder[roomCounter].roomMobs.size(); q++)
+				{
+					RoomOrder[roomCounter].roomMobs.get(q).move(player);
+				}
 				if (player.x < 0 && roomCounter > 0) 
 				{
 					roomCounter--;
@@ -222,6 +219,7 @@ public class Dungeon extends JPanel implements ActionListener
 				else if (player.x > 1280 && roomCounter < 5) 
 				{
 					roomCounter++;
+					YakEngine.clear();
 					player.x = 0;
 				}
 			}
@@ -230,26 +228,30 @@ public class Dungeon extends JPanel implements ActionListener
 			{
 				ticksSinceAttackStart++;
 				if (player.isAttackingUp)
-					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
-						if (player.attackUp().intersects(mob) && (getTicksSinceStart() == 10)) {
+					for (Mob mob: RoomOrder[roomCounter].roomMobs)
+					{
+						if (player.attackUp().intersects(mob.getBounds()) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
 						}
 					}
 				else if (player.isAttackingDown)
-					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
-						if (player.attackDown().intersects(mob) && (getTicksSinceStart() == 10)) {
+					for (Mob mob: RoomOrder[roomCounter].roomMobs) 
+					{
+						if (player.attackDown().intersects(mob.getBounds()) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
 						}
 					}
 				else if (player.isAttackingLeft)
-					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
-						if (player.attackLeft().intersects(mob) && (getTicksSinceStart() == 10)) {
+					for (Mob mob: RoomOrder[roomCounter].roomMobs)
+					{
+						if (player.attackLeft().intersects(mob.getBounds()) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
 						}
 					}
 				else if (player.isAttackingRight)
-					for (Mob mob: RoomOrder[roomCounter].roomMobs) {
-						if (player.attackRight().intersects(mob) && (getTicksSinceStart() == 10)) {
+					for (Mob mob: RoomOrder[roomCounter].roomMobs)
+					{
+						if (player.attackRight().intersects(mob.getBounds()) && (getTicksSinceStart() == 10)) {
 							mob.lowerHealth(1);
 						}
 					}
@@ -284,6 +286,7 @@ public class Dungeon extends JPanel implements ActionListener
 					YakEngine.createSystem(player.bomb.x+125, player.bomb.y+125, 7f, 2);
 					player.bombDropped = false;
 					player.BombDamage = true;
+					bomb = Driver.tk.createImage("../res/bomb.gif"); //resets Bomb gif
 					ticksSinceBombDropped = 0;
 				}
 			}
@@ -292,9 +295,9 @@ public class Dungeon extends JPanel implements ActionListener
 					ticksSinceAttacked++;
 			/*
 			 * Checks for 'safe frame' period
-			 * The player gains 40 ticks of invincibility after every hit
+			 * The player gains 80 ticks of invincibility after every hit
 			 */
-			if (ticksSinceAttacked > 40) 
+			if (ticksSinceAttacked > 80) 
 			{
 				player.lowerHealth(1);
 				ticksSinceAttacked = 0;
