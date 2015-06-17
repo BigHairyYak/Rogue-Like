@@ -10,8 +10,8 @@ public class Player extends Entity {
 	public boolean isAttackingLeft = false, isAttackingRight = false, isAttackingUp = false, isAttackingDown = false, isAttacking = false, bombDropped = true;
 	public Rectangle bomb;
 	private String upgrade = "bomb";
-	public boolean BombDamage = false, movingLeft = false, movingRight = false, moving = false, facingLeft = false, facingRight = false;
-	int cycle = 0;
+	public boolean BombDamage = false, movingLeft = false, movingRight = false;
+	int counter = 0;
 	Dungeon dungeon;
 	public Player(int x, int y, int width, int height, int health, Dungeon dungeon) 
 	{ //initialize
@@ -28,10 +28,6 @@ public class Player extends Entity {
 	}
 	public void move() 
 	{
-		if (moving)
-			cycle++;
-		if (cycle > 50)
-			cycle = 0;
 		boolean collision = true;
 		for (Platform platform : dungeon.RoomOrder[dungeon.roomCounter].roomPlatform)
 		{
@@ -109,45 +105,39 @@ public class Player extends Entity {
 	}
 	public void draw(Graphics2D g) 
 	{
-		if (isAttackingLeft)
-			g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(Driver.view.dungeon.ticksSinceAttackStart/11) * 60), 232, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT)
-					, x - 60, y - 24, /*162, 128,*/ null);
-		else if (isAttackingRight)
-			g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(Driver.view.dungeon.ticksSinceAttackStart/11) * 60), 290, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT)
-					, x - 60, y - 24, /*162, 128,*/ null);
-		else if (isAttackingUp)
-			if (facingLeft)
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(Driver.view.dungeon.ticksSinceAttackStart/11) * 60), 174, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT)
-					, x - 60, y - 24, /*162, 128,*/ null);
-			else
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(Driver.view.dungeon.ticksSinceAttackStart/11) * 60), 408, 60, 50).getScaledInstance(162, 128, Image.SCALE_DEFAULT)
-					, x - 60, y - 36, /*162, 128,*/ null);
-		else if (isAttackingDown) {
-			if (facingLeft)
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(Driver.view.dungeon.ticksSinceAttackStart/11) * 60), 116, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT)
-					, x - 60, y - 24, /*162, 128,*/ null);
-			else
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(Driver.view.dungeon.ticksSinceAttackStart/11) * 60), 348, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT)
-					, x - 60, y - 24, /*162, 128,*/ null);
-		}
-		else if (movingLeft)
+		if (movingLeft)
 		{
-			if (moving)
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(cycle/25) * 60), 59, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
-					, x-60, y-24, /*162, 128,*/ null);
-			else
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage(0, 59, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
-					, x-60, y-24, /*162, 128,*/ null);
+			if (counter <= 3)
+			{
+				g.drawImage(dungeon.playerWalkingLeft.get(0), x, y+30, dungeon);
+			}
+			else if (counter > 3)
+			{
+				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y+30, dungeon);
+			}
+			else if (counter <= 6) 
+			{
+				g.drawImage(dungeon.playerWalkingLeft.get(1), x, y+30, dungeon);
+				counter = 0;
+			}
 		}
 		else if (movingRight) 
 		{			
-			if (moving)
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(cycle/25) * 60), 0, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
-					, x-60, y-24, /*162, 128,*/ null);
-			else
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage(0, 0, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
-					, x-60, y-24, /*162, 128,*/ null);
+			if (counter <= 3) 
+			{				
+				g.drawImage(dungeon.playerWalkingRight.get(0), x, y+30, dungeon);
+			}
+			else if (counter > 3)
+			{
+				g.drawImage(dungeon.playerWalkingRight.get(1), x, y+30, dungeon);
+			}
+			else if (counter <= 6) 
+			{
+				g.drawImage(dungeon.playerWalkingRight.get(1), x, y+30, dungeon);
+				counter = 0;
+			}
 		}
+		
 	}
 	public ArrayList<BoundingRectangle> createBoundingRectangles(Rectangle r)
 	{
@@ -203,17 +193,17 @@ public class Player extends Entity {
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_A) {
 				setXSpeed(-DEFAULT_SPEED);
-				moving = true;
-				facingLeft = true;
-				facingRight = false;
+				counter++;
+				if (counter > 6)
+					counter = 0;
 				movingLeft = true;
 				movingRight = false;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_D) {
 				setXSpeed(DEFAULT_SPEED);
-				moving = true;
-				facingRight = true;
-				facingLeft = false;
+				counter++;
+				if (counter > 6)
+					counter = 0;
 				movingRight = true;
 				movingLeft = false;
 			}
@@ -245,7 +235,7 @@ public class Player extends Entity {
 					if(!bombDropped)
 					{
 						bombDropped = true;
-						bomb = new Rectangle(x + width / 2 - 125, y + height / 2 - 125, 250, 250);
+						bomb = new Rectangle(x - width/2, y - width/2, 250, 250);
 					}
 				}
 			}
@@ -259,11 +249,11 @@ public class Player extends Entity {
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_A) {
 				setXSpeed(0);
-				moving = false;
+				counter = 0;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_D) {
 				setXSpeed(0);
-				moving = false;
+				counter = 0;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_UP) {
 			}
