@@ -17,17 +17,11 @@ public class Dungeon extends JPanel implements ActionListener
 {
 	Room[] RoomOrder;
 	ArrayList<Room> room = new ArrayList<Room>();
-	
 	ArrayList<ArrayList<Mob>> roomMobs = new ArrayList<ArrayList<Mob>>();
 	ArrayList<Mob> roomMob0, roomMob1, roomMob2, roomMob3, roomMob4, roomMob5, roomMob6;
-	
 	Platform[] room1Platforms, room2Platforms, room3Platforms, room4Platforms, room5Platforms, room6Platforms, room7Platforms; 
-	
 	BufferedImage playerSpriteSheet;
-	ArrayList<Image> playerWalkingLeft, playerWalkingRight, playerAttackingLeft, playerAttackingRight, playerAttackingUpLeft, playerAttackingDownLeft, playerAttackingUpRight, playerAttackingDownRight;
-
-	 AudioClip bossTheme;
-	
+	AudioClip bossTheme;
 	Player player;
 	Timer t;
 	
@@ -36,17 +30,15 @@ public class Dungeon extends JPanel implements ActionListener
 	public Image background, floor, openDoor, closedDoor, wall, platform, bomb;
 	public Image boss1, boss2, boss3;
 	public BufferedImage enemy, bossEnemy, healthBar;
-	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked;
+	int roomCounter, counter, ticksSinceAttackStart, ticksSinceBombDropped, ticksSinceAttacked, ticks;
 	
-	int ticks;
-
 	public Dungeon()
 	{
 		/*
 		 * IMAGE LOADING CODE
 		 */
 		try
-		{				
+		{	
 			floor = ImageIO.read(new FileInputStream(new File("../resources/background_2.png")));
 			wall = ImageIO.read(new FileInputStream(new File("../resources/wall.png")));
 			platform = ImageIO.read(new FileInputStream(new File("../resources/platform.png")));
@@ -58,6 +50,7 @@ public class Dungeon extends JPanel implements ActionListener
 			boss2 = ImageIO.read(new File("../resources/skull_open.png"));
 			boss3 = ImageIO.read(new File("../resources/skull_open_bigger.png"));
 			healthBar = ImageIO.read(new FileInputStream(new File("../resources/health.PNG")));
+			playerSpriteSheet = ImageIO.read(new File("../resources/player.png"));
 		}
 		catch(IOException e)
 		{
@@ -72,26 +65,7 @@ public class Dungeon extends JPanel implements ActionListener
 		
 		//Driver.normalTheme.play();
 		
-		playerWalkingLeft = new ArrayList<Image>();
-		playerWalkingRight = new ArrayList<Image>();
-		playerAttackingLeft = new ArrayList<Image>();
-		playerAttackingUpLeft = new ArrayList<Image>();
-		playerAttackingDownLeft = new ArrayList<Image>();
-		playerAttackingRight = new ArrayList<Image>();
-		playerAttackingUpRight = new ArrayList<Image>();
-		playerAttackingDownRight = new ArrayList<Image>();
-		
-		try {
-			playerSpriteSheet = ImageIO.read(new File("../resources/player.png"));
-			for (int i = 0; i < 2; i++) {
-				playerWalkingRight.add(playerSpriteSheet.getSubimage(60*i, 0, 60, 47).getScaledInstance(120, 80, Image.SCALE_DEFAULT));
-				playerWalkingLeft.add(playerSpriteSheet.getSubimage(60*i, 59, 60, 47).getScaledInstance(120, 80, Image.SCALE_DEFAULT));
-			}				
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		player = new Player(0, 700, 100, 100, 20, this);
+		player = new Player(0, 700, 54, 64, 10, this);
 		
 		room1Platforms = new Platform[3];
 		room2Platforms = new Platform[3];
@@ -192,6 +166,7 @@ public class Dungeon extends JPanel implements ActionListener
 		}
 		
 		//Generating Pool of Rooms; new mobs though room platforms are the same
+		room.add(new Room(null, null));
 		room.add(new Room(room1Platforms, roomMobs.get(0)));
 		room.add(new Room(room2Platforms, roomMobs.get(1)));
 		room.add(new Room(room3Platforms, roomMobs.get(2)));
@@ -380,7 +355,9 @@ public class Dungeon extends JPanel implements ActionListener
 		//g2.drawString("" + x.velX, 0, 20);
 		//g2.drawString("" + x.velY, 0, 20);
 	
+		g2.draw(player);
 		player.draw(g2);
+		g2.drawLine(0, 800, 1024, 800);
 
 		if (player.isAttackingUp)
 			g2.draw((Shape)player.attackUp());
