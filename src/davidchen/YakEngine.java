@@ -75,7 +75,7 @@ public final class YakEngine
 	 */
 	public static void createSystem(int x, int y, float intensity, int type)
 	{
-		System.out.println("Creating new system");
+		//System.out.println("Creating new system");
 		switch (type)
 		{
 			case 1:
