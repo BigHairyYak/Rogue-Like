@@ -208,7 +208,7 @@ public class Dungeon extends JPanel implements ActionListener
 		RoomOrder[4] = room.remove(Driver.RNG.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
 		
 		RoomOrder[5] = new Room(room1Platforms, new ArrayList<Mob>());
-		RoomOrder[5].roomMobs.add(new Boss(760, 300, 160, 200, 5000 /*this number is irrelevant*/, RoomOrder[5]));
+		RoomOrder[5].roomMobs.add(new Boss(430, 150, 160, 200, 5000 /*this number is irrelevant*/, RoomOrder[5]));
 		
 		//Reset Player Location; sets X and Y to default values
 		player.setX(0);
@@ -399,7 +399,7 @@ public class Dungeon extends JPanel implements ActionListener
 		
 		g.setFont(g.getFont().deriveFont(18f));
 		g.setColor(Color.ORANGE);
-		g.drawString("USE WASD TO MOVE!   -   USE THE ARROW KEYS TO SWING YOUR SWORD AND SPACE TO DROP BOMBS! BOMBS DON'T HURT!   -   ENJOY!", 20, 970);
+		g.drawString("USE WASD TO MOVE!   -   USE THE ARROW KEYS TO SWING YOUR SWORD AND SPACE TO DROP BOMBS! BOMBS DON'T HURT!   -   ENJOY!", 20, 930);
 		
 		g.setFont(g.getFont().deriveFont(40f));
 		g2.drawString("" + Math.round(((double)ticks)/90.00 * 100.0)/100.0 + "s", 550, 800);
