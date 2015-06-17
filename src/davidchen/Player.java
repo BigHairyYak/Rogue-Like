@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.*;
 @SuppressWarnings("serial")
 public class Player extends Entity {
-	protected final double DEFAULT_MULTIPLIER = 1.0, DEFAULT_SPEED = 10.0, DEFAULT_ACCELERATION = 20, DEFAULT_JUMP_HEIGHT = 400;
+	protected final double DEFAULT_MULTIPLIER = 1.0, DEFAULT_SPEED = 10.0, DEFAULT_ACCELERATION = 20, DEFAULT_JUMP_HEIGHT = 350;
 	private KeyAdapter keyAdapter;
 	public boolean isAttackingLeft = false, isAttackingRight = false, isAttackingUp = false, isAttackingDown = false, isAttacking = false, bombDropped = true;
 	public Rectangle bomb;

@@ -125,20 +125,17 @@ public class Dungeon extends JPanel implements ActionListener
 		room1Platforms[2] = new Platform(900, 200, 250, 20);
 
 		//room2 platforms
-
 		room2Platforms[0] = new Platform(50, 300, 400, 20);
 		room2Platforms[1] = new Platform(500, 550, 200, 20);
 		room2Platforms[2] = new Platform(750, 300, 400, 20);
 
 		//room3 platforms
-
 		room3Platforms[0] = new Platform(50, 600, 100, 20);
 		room3Platforms[1] = new Platform(350, 400, 500, 20);
 		room3Platforms[2] = new Platform(450, 250, 300, 20);
 		room3Platforms[3] = new Platform(1050, 600, 100, 20);
 
 		//room4 platforms
-
 		room4Platforms[0] = new Platform(75, 575, 250, 20);
 		room4Platforms[1] = new Platform(75, 350, 350, 20);
 		room4Platforms[2] = new Platform(955, 575, 250, 20);
@@ -146,7 +143,6 @@ public class Dungeon extends JPanel implements ActionListener
 		room4Platforms[4] = new Platform(125, 150, 1030, 20);
 
 		//room5 platforms
-
 		room5Platforms[0] = new Platform(150, 200, 150, 20);
 		room5Platforms[1] = new Platform(150, 600, 150, 20);
 		room5Platforms[2] = new Platform(565, 400, 150, 20);
@@ -154,13 +150,11 @@ public class Dungeon extends JPanel implements ActionListener
 		room5Platforms[4] = new Platform(980, 200, 150, 20);
 		
 		//room6 platforms
-
 		room6Platforms[0] = new Platform(980, 600, 250, 20);
 		room6Platforms[1] = new Platform(480, 400, 400, 20);
 		room6Platforms[2] = new Platform(130, 200, 250, 20);
 
 		//room7 platforms
-
 		room7Platforms[0] = new Platform(150, 200, 150, 20);
 		room7Platforms[1] = new Platform(150, 600, 150, 20);
 		room7Platforms[2] = new Platform(565, 400, 150, 20);
