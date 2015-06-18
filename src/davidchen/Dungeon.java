@@ -9,6 +9,8 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import resources.ResourceLoader;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,7 +27,11 @@ public class Dungeon extends JPanel implements ActionListener
 	Player player;
 	Timer t;
 	
-	boolean bossBattle = false;
+	double time;
+	
+	int timeOfBossDeath;
+	
+	boolean bossBattle = false, scoreRecorded = false;
 	
 	public Image background, floor, openDoor, closedDoor, wall, platform, bomb, wasd, arrowkeys, spacebar;
 	public Image boss1, boss2, boss3;
@@ -37,28 +43,21 @@ public class Dungeon extends JPanel implements ActionListener
 		/*
 		 * IMAGE LOADING CODE
 		 */
-		try
-		{	
-			floor = ImageIO.read(new FileInputStream(new File("../resources/background_2.png")));
-			wall = ImageIO.read(new FileInputStream(new File("../resources/wall.png")));
-			platform = ImageIO.read(new FileInputStream(new File("../resources/platform.png")));
-			background = ImageIO.read(new File("../resources/background_1.png"));
-			bomb = Driver.tk.createImage("../resources/bomb.gif"); //toolkit usage is needed for proper .gif animation
-			enemy = ImageIO.read(new File("../resources/bird_final.png"));
-			bossEnemy = ImageIO.read(new File("../resources/bossBird.png"));
-			boss1 = ImageIO.read(new File("../resources/skull.png"));
-			boss2 = ImageIO.read(new File("../resources/skull_open.png"));
-			boss3 = ImageIO.read(new File("../resources/skull_open_bigger.png"));
-			healthBar = ImageIO.read(new FileInputStream(new File("../resources/health.PNG")));
-			playerSpriteSheet = ImageIO.read(new File("../resources/player.png"));
-			wasd = ImageIO.read(new File("../resources/wasd.png"));
-			arrowkeys = ImageIO.read(new File("../resources/arrowkeys.png"));
-			spacebar = ImageIO.read(new File("../resources/spacebar.png"));
-		}
-		catch(IOException e)
-		{
-			
-		}
+			floor = DriverFrame.floor; //ImageIO.read(new FileInputStream(new File("../resources/background_2.png")));
+			wall = DriverFrame.wall; //ImageIO.read(new FileInputStream(new File("../resources/wall.png")));
+			platform = DriverFrame.platform; //ImageIO.read(new FileInputStream(new File("../resources/platform.png")));
+			background = DriverFrame.background; //ImageIO.read(new File("../resources/background_1.png"));
+			bomb = DriverFrame.bomb; //Driver.tk.createImage("../resources/bomb.gif"); //toolkit usage is needed for proper .gif animation
+			enemy = DriverFrame.enemy; //ImageIO.read(new File("../resources/bird_final.png"));
+			bossEnemy = DriverFrame.bossEnemy; //ImageIO.read(new File("../resources/bossBird.png"));
+			boss1 = DriverFrame.boss1; //ImageIO.read(new File("../resources/skull.png"));
+			boss2 = DriverFrame.boss2; //ImageIO.read(new File("../resources/skull_open.png"));
+			boss3 = DriverFrame.boss3; //ImageIO.read(new File("../resources/skull_open_bigger.png"));
+			healthBar = DriverFrame.healthBar; //ImageIO.read(new File("../resources/health.PNG"));
+			playerSpriteSheet = DriverFrame.playerSpriteSheet; //ImageIO.read(new File("../resources/player.png"));
+			wasd = DriverFrame.wasd; //ImageIO.read(new File("../resources/wasd.png"));
+			arrowkeys = DriverFrame.arrowkeys; //ImageIO.read(new File("../resources/arrowkeys.png"));
+			spacebar = DriverFrame.spacebar; //ImageIO.read(new File("../resources/spacebar.png"));
 
 		System.out.println("BOSS ENEMY: " + bossEnemy);
 		//System.exit(0);
@@ -144,8 +143,15 @@ public class Dungeon extends JPanel implements ActionListener
 		//Clears all rooms; there would be three rooms left
 		room.clear();
 		
+		time = 0;
+		scoreRecorded = false;
+		bossBattle = false;
+		
+		timeOfBossDeath = 0;
 		ticks = 0;
-		player.health = 20;
+		t = new Timer(9, this);
+				
+		player = new Player(0, 700, 54, 64, 20, this);
 		
 		//Clears Mobs; no mobs in any room
 		for (ArrayList<Mob> roomMobs : roomMobs)
@@ -164,10 +170,7 @@ public class Dungeon extends JPanel implements ActionListener
 		}
 		
 		//Generating Pool of Rooms; new mobs though room platforms are the same
-<<<<<<< HEAD
-		//room.add(new Room(null, null));
-=======
->>>>>>> origin/master
+
 		room.add(new Room(room1Platforms, roomMobs.get(0)));
 		room.add(new Room(room2Platforms, roomMobs.get(1)));
 		room.add(new Room(room3Platforms, roomMobs.get(2)));
@@ -185,7 +188,7 @@ public class Dungeon extends JPanel implements ActionListener
 		RoomOrder[5] = room.remove(Driver.RNG.nextInt(3));//new Room(testRoom, new ArrayList<Mob>(0))
 		
 		RoomOrder[6] = new Room(room1Platforms, new ArrayList<Mob>());
-		RoomOrder[6].roomMobs.add(new Boss(430, 150, 160, 200, 5000 /*this number is irrelevant*/, RoomOrder[5]));
+		RoomOrder[6].roomMobs.add(new Boss(430, 150, 160, 200, 5000 /*this number is irrelevant*/, RoomOrder[6]));
 		
 		//Reset Player Location; sets X and Y to default values
 		player.setX(0);
@@ -197,7 +200,7 @@ public class Dungeon extends JPanel implements ActionListener
 		setFocusable(true); //lets key listener work
 		this.addKeyListener(player.getKeyAdapter()); //gets key adapter for player
 		t.start(); //starts the base game timer
-		
+		repaint();
 		YakEngine.start(this); //starts YakEngine.EngineTimer with this as a listener
 	}
 	public void actionPerformed(ActionEvent e) 
@@ -232,7 +235,7 @@ public class Dungeon extends JPanel implements ActionListener
 					player.x = 0;
 				}
 				
-				if (roomCounter == 5 && !bossBattle) //last room
+				if (roomCounter == 6 && !bossBattle) //last room
 				{
 					bossBattle = true;
 					Driver.normalTheme.stop();
@@ -302,7 +305,7 @@ public class Dungeon extends JPanel implements ActionListener
 					YakEngine.createSystem(player.bomb.x+125, player.bomb.y+125, 7f, 2);
 					player.bombDropped = false;
 					player.BombDamage = true;
-					bomb = Driver.tk.createImage("../resources/bomb.gif"); //resets Bomb gif
+					bomb = ResourceLoader.getImage("bomb.gif"); //resets Bomb gif
 					ticksSinceBombDropped = 0;
 				}
 			}
@@ -318,10 +321,24 @@ public class Dungeon extends JPanel implements ActionListener
 				player.lowerHealth(1);
 				ticksSinceAttacked = 0;
 				Driver.hurt.play();
+					
 			}			
 			RoomOrder[roomCounter].update(); //updates current room to remove dead enemies
-			if (RoomOrder[5].roomMobs.size() == 0)
+			if (RoomOrder[6].roomMobs.size() == 0)
+			{
 				Driver.gameEnded = true;
+				
+				if (!scoreRecorded)
+				{
+					Driver.view.menu.lastTime = time;
+					if (Driver.view.menu.lastTime < Driver.view.menu.fastestTime)
+						Driver.view.menu.fastestTime = Driver.view.menu.lastTime;
+					scoreRecorded = true;
+				}
+				
+				if (ticks >= timeOfBossDeath + 200) //game goes to win-screen after 200 ticks
+					Driver.view.swapPanes();
+			}
 		}
 		
 		if (e.getSource() == YakEngine.EngineTimer)
@@ -333,6 +350,7 @@ public class Dungeon extends JPanel implements ActionListener
 		{
 			t.stop();
 			YakEngine.EngineTimer.stop();
+			Driver.view.swapPanes();
 		}
 		repaint();
 		counter++;
@@ -392,7 +410,9 @@ public class Dungeon extends JPanel implements ActionListener
 		g.drawString("USE WASD TO MOVE!   -   USE THE ARROW KEYS TO SWING YOUR SWORD!   -   USE SPACE TO DROP BOMBS! - BOMBS DON'T HURT YOU!", 20, 930);
 		
 		g.setFont(g.getFont().deriveFont(40f));
-		g2.drawString("" + Math.round(((double)ticks)/90.00 * 100.0)/100.0 + "s", 550, 800);
+		
+		time = Math.round(((double)ticks)/90.00 * 100.0)/100.0;
+		g2.drawString("" + time + "s", 550, 800);
 		
 		YakEngine.draw(g2);
 	}

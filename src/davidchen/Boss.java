@@ -28,18 +28,18 @@ public class Boss extends Mob
 	{		
 		if (phase == 1) //spawning enemies
 		{
-			if (Driver.RNG.nextInt(151) == 150)
+			if (Driver.RNG.nextInt(61) == 60)
 				spawn(Driver.RNG.nextInt(3) + 1);
 		}
 		if (phase == 2) //teleporting and spawning
 		{
-			if (Driver.RNG.nextInt(176) == 175)
+			if (Driver.RNG.nextInt(36) == 35)
 			{
 				YakEngine.createSystem(x, y, 5f, 5);
 				x = Driver.RNG.nextInt(800) + 200;
 				y = Driver.RNG.nextInt(400) + 200;
 			}
-			if (Driver.RNG.nextInt(151) == 150)
+			if (Driver.RNG.nextInt(51) == 50)
 				spawn(Driver.RNG.nextInt(5) + 1);
 		}
 		if (phase == 3) //No more spawning, just charging at the player
@@ -58,8 +58,8 @@ public class Boss extends Mob
 		{
 
 			phase = 4; //unused phase, allows for proper death 'spasms'
-			x += Driver.RNG.nextInt(6)-5;
-			y += Driver.RNG.nextInt(6)-5;
+			x += Driver.RNG.nextInt(6)-3;
+			y += Driver.RNG.nextInt(6)-3;
 
 			if (Driver.RNG.nextInt(10) < 5)
 				YakEngine.createSystem(x + width/2 + (Driver.RNG.nextInt(61)-60), y + height/2+(Driver.RNG.nextInt(61)-60), 2.5f, 2);
@@ -69,6 +69,7 @@ public class Boss extends Mob
 		if (explodeTime <= 0)
 		{
 			dead = true;
+			Driver.view.dungeon.timeOfBossDeath = Driver.view.dungeon.ticks;
 			YakEngine.createSystem(x + width/2, y + height/2, 8.5f, 2);
 		}
 		System.out.println("BOSS ACTING");

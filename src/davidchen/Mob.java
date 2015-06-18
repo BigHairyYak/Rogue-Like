@@ -41,7 +41,7 @@ public class Mob extends Entity
 			g.drawImage(Driver.view.dungeon.bossEnemy.
 					getSubimage((int)(cycle%5 * 110.2), (int)(cycle/5 * 101.33), 110, 101) //subimage area
 				, directionalX, y, directionalW, 101, null); //drawing coordinates)
-		g.drawRect(x, y, width, height);
+		//g.drawRect(x, y, width, height);
 	}
 	
 	/*

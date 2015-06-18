@@ -47,7 +47,7 @@ public class Player extends Entity {
 				setY((int)(dungeon.RoomOrder[dungeon.roomCounter].floor.y-height));
 				collision = true;
 			}
-			else if (y < 600) 
+			else if (y < 630) 
 			{
 				collision = false;
 				//YSpeed += DEFAULT_ACCELERATION;
@@ -220,7 +220,10 @@ public class Player extends Entity {
 			if (e.getKeyCode() == KeyEvent.VK_W) {
 				for (Platform platform : dungeon.RoomOrder[dungeon.roomCounter].roomPlatform)
 					if (YSpeed == 0 || Collision.isColliding(dungeon.player, platform))
+					{
 						setYSpeed(-DEFAULT_JUMP_HEIGHT);	
+						Driver.jump.play();
+					}
 			}
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				isAttackingUp = true;

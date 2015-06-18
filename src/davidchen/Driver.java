@@ -24,19 +24,20 @@ public class Driver extends JApplet
 		RNG = new Random();
 		//URL normalmusic = Driver.class.getResource("../resources/soundtrack_Cleanest.wav");
 		//System.out.println(normalmusic);
-		normalTheme = getAudioClip(getDocumentBase(), "../resources/soundtrack_Cleanest.wav");
-		bossTheme = getAudioClip(getDocumentBase(), "../resources/BossMusic.wav");
-		jump = getAudioClip(getDocumentBase(), "../resources/jump.wav");
-		hurt = getAudioClip(getDocumentBase(), "../resources/hurt.wav");
-		System.out.println(normalTheme);
-		normalTheme.loop();
+		normalTheme = DriverFrame.normalTheme;
+		bossTheme = DriverFrame.bossTheme;
+		jump = DriverFrame.jump;
+		hurt = DriverFrame.hurt;
+		//System.out.println(DriverFrame.normalTheme);
+		DriverFrame.normalTheme.loop();
 		
 		gameStarted = false;
 		gameEnded = false;
 		view = new ViewFrame();
 		view.setVisible(true);
 		setSize(1280, 1024);
-	
+		
+		
 		 //System.out.println(bossTheme);
 	}
 }
@@ -74,6 +75,9 @@ class ViewFrame extends JFrame
 			dungeon.t.stop();
 			dungeon.setVisible(false);
 			setContentPane(menu);
+			
+			menu.whichSplash = Driver.RNG.nextInt(4);
+			
 			menu.setVisible(true);
 			menu.repaint();
 			menu.requestFocus();

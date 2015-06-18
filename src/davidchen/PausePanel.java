@@ -19,20 +19,21 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 	KevButton startResume, exit;
 	public Image background, izudu;
 	static Image button;
+	
+	int whichSplash;
+	double lastTime, fastestTime;
+	
 	public PausePanel()
 	{
+		lastTime = fastestTime = 9999999;
 		startResume = new KevButton(280, 200, 720, 200, "START");
 		exit = new KevButton(280, 500, 720, 200, "EXIT");
 		
 		addMouseListener(this);
 		
-		try
-		{
-			background = ImageIO.read(new File("../resources/background_2.png"));
-			button = ImageIO.read(new File("../resources/background_1.png"));
-			izudu = ImageIO.read(new File("../resources/izudu.png"));
-		}
-		catch (IOException e){}
+			background = DriverFrame.background;
+			button = DriverFrame.button;
+			izudu = DriverFrame.izudu;
 		
 		YakEngine.start(this);
 		YakEngine.createSystem(140, 250, 7.0f, 1);
@@ -50,7 +51,20 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 		exit.draw(g);
 		g.drawImage(izudu, 1050, 750, 250, 250, this);
 		g.setFont(g.getFont().deriveFont(40f));
-		g.drawString("SUPER ADVENTURE GAME", 375, 120);
+		String splash = "";
+		if (whichSplash == 0)
+			splash = "DO NOT UNDERESTIMATE THE BOSS: THE GAME";
+		else if (whichSplash == 1)
+			splash = "THE BOSS IS SUPER HARD: THE GAME";
+		else if (whichSplash == 2)
+			splash = "YOU WILL LOSE: THE GAME";
+		else if (whichSplash == 3)
+			splash = "2,200+ LINES OF CODE!";
+		g.drawString(splash, 275, 120);
+		
+		g.drawString("LAST RUN: " + lastTime + " seconds", 400, 750);
+		g.drawString("FASTEST TIME: " + fastestTime + " seconds", 400, 830);
+		
 		g.setFont(g.getFont().deriveFont(15f));
 		g.drawString("Noah Bock, David Chen, Kevin Guo, and Sam Yakovlev", 20, 970);
 		YakEngine.draw(g);
@@ -61,7 +75,7 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 		//System.out.println("tick");
 		if (Driver.gameStarted == true)
 			startResume.function = "RESUME";
-		if (Driver.gameEnded == true)
+		if (Driver.gameEnded == true || Driver.view.dungeon.player.dead)
 			startResume.function = "RESTART";
 		YakEngine.act();
 		repaint(); 
@@ -79,11 +93,13 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 				Driver.bossTheme.stop();
 				//Driver.normalTheme.loop();
 			}
-			if (Driver.gameEnded == true)
+			if (Driver.gameEnded == true || Driver.view.dungeon.player.dead)
 			{
 				Driver.gameEnded = false;
 				Driver.gameStarted = true;
 				Driver.view.dungeon.generate();
+				Driver.bossTheme.stop();
+				Driver.normalTheme.loop();
 			}
 			Driver.view.swapPanes();
 		}
