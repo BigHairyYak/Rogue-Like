@@ -290,7 +290,7 @@ public class Dungeon extends JPanel implements ActionListener
 				int checkCounter = roomCounter;
 				ticksSinceBombDropped++;					
 				for (Mob mob : RoomOrder[roomCounter].roomMobs)
-					if (player.bomb.intersects(mob) && getTicksSinceBombDropped() == 100)
+					if (player.bomb.intersects(mob.getBounds()) && getTicksSinceBombDropped() == 100)
 					{
 						mob.lowerHealth(4);		
 					}
@@ -305,7 +305,7 @@ public class Dungeon extends JPanel implements ActionListener
 					YakEngine.createSystem(player.bomb.x+125, player.bomb.y+125, 7f, 2);
 					player.bombDropped = false;
 					player.BombDamage = true;
-					bomb = ResourceLoader.getImage("bomb.gif"); //resets Bomb gif
+					bomb.flush(); //resets Bomb gif
 					ticksSinceBombDropped = 0;
 				}
 			}

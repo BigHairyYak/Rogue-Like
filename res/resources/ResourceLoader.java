@@ -21,7 +21,7 @@ public class ResourceLoader
 	{
 		System.out.println(fileName);
 		System.out.println(Toolkit.getDefaultToolkit().getImage(rl.getClass().getResource("res/images/" + fileName)));
-		return Toolkit.getDefaultToolkit().getImage("resources.images/" + fileName);
+		return Toolkit.getDefaultToolkit().getImage("res/images/" + fileName);
 	}
 	public static BufferedImage getBufferedImage(String fileName)
 	{
