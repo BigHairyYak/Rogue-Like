@@ -1,6 +1,7 @@
 package davidchen;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Boss extends Mob
@@ -33,13 +34,13 @@ public class Boss extends Mob
 		}
 		if (phase == 2) //teleporting and spawning
 		{
-			if (Driver.RNG.nextInt(36) == 35)
+			if (Driver.RNG.nextInt(51) == 50)
 			{
 				YakEngine.createSystem(x, y, 5f, 5);
 				x = Driver.RNG.nextInt(800) + 200;
 				y = Driver.RNG.nextInt(400) + 200;
 			}
-			if (Driver.RNG.nextInt(51) == 50)
+			if (Driver.RNG.nextInt(76) == 75)
 				spawn(Driver.RNG.nextInt(5) + 1);
 		}
 		if (phase == 3) //No more spawning, just charging at the player
@@ -82,7 +83,7 @@ public class Boss extends Mob
 			g.drawImage(Driver.view.dungeon.boss2, x, y, width, height, null);
 		if (phase > 2)
 			g.drawImage(Driver.view.dungeon.boss2, x, y, width, height, null);
-		g.drawRect(x, y, width, height);
+		((Graphics2D)g).draw(getBounds());
 		g.drawString("BOSS HEALTH: " + health, 50, 100);
 		
 		g.drawImage(Driver.view.dungeon.healthBar.getSubimage(0, (int)(17 * (health/3)), 184, 14), 820, 750, 368, 34, null);
