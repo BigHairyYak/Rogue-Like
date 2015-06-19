@@ -12,7 +12,7 @@ public class DriverFrame extends JFrame
 {
 	Driver driver = new Driver();
 	public static AudioClip normalTheme, bossTheme, jump, hurt;
-	ResourceLoader rl = new ResourceLoader();
+	static ResourceLoader rl = new ResourceLoader();
 	public static BufferedImage background, floor, wall, openDoor,closedDoor, 
 	platform, wasd, arrowkeys, spacebar, boss1, boss2, boss3, button, izudu;
 	public static Image bomb;

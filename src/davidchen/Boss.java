@@ -8,7 +8,7 @@ public class Boss extends Mob
 {
 	int x, y, width, height, health;
 	int phase = 1, explodeTime;
-	float velocity = 5;
+	float velocity = 7;
 	Room room;
 	
 	public Boss(int x, int y, int width, int height, int health, Room bossRoom) 
@@ -63,7 +63,7 @@ public class Boss extends Mob
 			y += Driver.RNG.nextInt(6)-3;
 
 			if (Driver.RNG.nextInt(10) < 5)
-				YakEngine.createSystem(x + width/2 + (Driver.RNG.nextInt(61)-60), y + height/2+(Driver.RNG.nextInt(61)-60), 2.5f, 2);
+				YakEngine.createSystem(x + width/2 + (Driver.RNG.nextInt(61)-30), y + height/2+(Driver.RNG.nextInt(61)-30), 2.5f, 2);
 			
 			explodeTime--;
 		}
@@ -83,8 +83,7 @@ public class Boss extends Mob
 			g.drawImage(Driver.view.dungeon.boss2, x, y, width, height, null);
 		if (phase > 2)
 			g.drawImage(Driver.view.dungeon.boss2, x, y, width, height, null);
-		((Graphics2D)g).draw(getBounds());
-		g.drawString("BOSS HEALTH: " + health, 50, 100);
+		//((Graphics2D)g).draw(getBounds());
 		
 		g.drawImage(Driver.view.dungeon.healthBar.getSubimage(0, (int)(17 * (health/3)), 184, 14), 820, 750, 368, 34, null);
 		
@@ -122,7 +121,10 @@ public class Boss extends Mob
 			phase = 2;
 		if (health < 10)
 			phase = 3;
-		if (health < 0)
+		if (health <= 0)
+		{
+			health = 0;
 			phase = 4;
+		}
 	}
 }

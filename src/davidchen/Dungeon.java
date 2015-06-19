@@ -67,7 +67,7 @@ public class Dungeon extends JPanel implements ActionListener
 		
 		//Driver.normalTheme.play();
 		
-		player = new Player(0, 700, 54, 64, 10, this);
+		player = new Player(0, 700, 54, 64, 20, this);
 		
 		room0Platforms = new Platform[1];
 		room1Platforms = new Platform[3];
@@ -143,6 +143,8 @@ public class Dungeon extends JPanel implements ActionListener
 		//Clears all rooms; there would be three rooms left
 		room.clear();
 		
+		background = DriverFrame.background; //for silly reasons
+		
 		time = 0;
 		scoreRecorded = false;
 		bossBattle = false;
@@ -207,7 +209,8 @@ public class Dungeon extends JPanel implements ActionListener
 	{
 		if (e.getSource() == t)
 		{
-			ticks++;
+			if (roomCounter > 0)
+				ticks++;
 			
 			if (counter % 2 == 0) //Movement of player and mobs
 			{
@@ -223,16 +226,27 @@ public class Dungeon extends JPanel implements ActionListener
 				{
 					RoomOrder[roomCounter].roomMobs.get(q).move(player);
 				}
-				if (player.x < 0 && roomCounter > 0) 
+				if (player.x < 0 && roomCounter > 0)
 				{
-					roomCounter--;
-					player.x = 1280;
+					if (RoomOrder[roomCounter].roomMobs.isEmpty())
+					{
+						roomCounter--;
+						YakEngine.clear();
+						player.x = 1280;
+					}
+					else
+						player.x = 0;
 				}
-				else if (player.x > 1280 && roomCounter < 6) 
+				if (player.x + player.width> 1280 && roomCounter < 6) 
 				{
-					roomCounter++;
-					YakEngine.clear();
-					player.x = 0;
+					if (RoomOrder[roomCounter].roomMobs.isEmpty())
+					{
+						roomCounter++;
+						YakEngine.clear();
+						player.x = 0;
+					}
+					else
+						player.x = 1280 - player.width;
 				}
 				
 				if (roomCounter == 6 && !bossBattle) //last room
@@ -334,9 +348,10 @@ public class Dungeon extends JPanel implements ActionListener
 					if (Driver.view.menu.lastTime < Driver.view.menu.fastestTime)
 						Driver.view.menu.fastestTime = Driver.view.menu.lastTime;
 					scoreRecorded = true;
+					background = DriverFrame.rl.getImage("bitdance.gif"); //victory sillyness
 				}
 				
-				if (ticks >= timeOfBossDeath + 200) //game goes to win-screen after 200 ticks
+				if (ticks >= timeOfBossDeath + 500) //game goes to win-screen after 200 ticks
 					Driver.view.swapPanes();
 			}
 		}
@@ -375,13 +390,13 @@ public class Dungeon extends JPanel implements ActionListener
 		//g2.drawString("" + x.velX, 0, 20);
 		//g2.drawString("" + x.velY, 0, 20);
 	
-		g2.draw(player);
+		//g2.draw(player);
 		player.draw(g2);
-		g2.drawLine(0, 800, 1024, 800);
 		
 		g.setFont(g.getFont().deriveFont(18f));
 		
-		if (roomCounter == 0) {
+		if (roomCounter == 0) 
+		{
 			g.drawString("Movement", 255, 300);
 			g.drawString("Attack", 575, 300);
 			g.drawString("Use Item", 900, 300);
@@ -389,15 +404,6 @@ public class Dungeon extends JPanel implements ActionListener
 			g2.drawImage(arrowkeys, 500, 300, 200, 200, this);
 			g2.drawImage(spacebar, 800, 400, 300, 50, this);
 		}
-		
-		if (player.isAttackingUp)
-			g2.draw((Shape)player.attackUp());
-		else if (player.isAttackingDown)
-			g2.draw((Shape)player.attackDown());
-		else if (player.isAttackingLeft)
-			g2.draw((Shape)player.attackLeft());
-		else if (player.isAttackingRight)
-			g2.draw((Shape)player.attackRight());
 
 		//System.out.println(healthBar);
 		g2.drawImage(healthBar.getSubimage(0, (int)(17 * (player.health/2)), 184, 14), 20, 750, 368, 34, this);
@@ -412,6 +418,7 @@ public class Dungeon extends JPanel implements ActionListener
 		g.setFont(g.getFont().deriveFont(40f));
 		
 		time = Math.round(((double)ticks)/90.00 * 100.0)/100.0;
+		
 		g2.drawString("" + time + "s", 550, 800);
 		
 		YakEngine.draw(g2);

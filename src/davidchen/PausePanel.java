@@ -59,7 +59,9 @@ public class PausePanel extends JPanel implements ActionListener, MouseListener
 		else if (whichSplash == 2)
 			splash = "YOU WILL LOSE: THE GAME";
 		else if (whichSplash == 3)
-			splash = "2,200+ LINES OF CODE!";
+			splash = "1,729 LINES OF CODE!";
+		else if (whichSplash == 4)
+			splash = "NO TURNING BACK; IT'S CODED THAT WAY";
 		g.drawString(splash, 275, 120);
 		
 		g.drawString("LAST RUN: " + lastTime + " seconds", 400, 750);

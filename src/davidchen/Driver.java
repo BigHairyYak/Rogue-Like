@@ -35,7 +35,7 @@ public class Driver extends JApplet
 		gameEnded = false;
 		view = new ViewFrame();
 		view.setVisible(true);
-		setSize(1280, 1024);
+		setSize(1350, 1024);
 		
 		
 		 //System.out.println(bossTheme);
@@ -53,7 +53,7 @@ class ViewFrame extends JFrame
 		dungeon = new Dungeon();
 		//dungeon.generate();
 
-		setSize(1280, 1024);
+		setSize(1295, 1024);
 		dungeon.setVisible(true);
 		menu.setVisible(true);
 		setContentPane(menu);
@@ -76,7 +76,7 @@ class ViewFrame extends JFrame
 			dungeon.setVisible(false);
 			setContentPane(menu);
 			
-			menu.whichSplash = Driver.RNG.nextInt(4);
+			menu.whichSplash = Driver.RNG.nextInt(5);
 			
 			menu.setVisible(true);
 			menu.repaint();

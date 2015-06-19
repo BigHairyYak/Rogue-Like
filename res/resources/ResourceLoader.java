@@ -17,13 +17,13 @@ public class ResourceLoader
 {
 	static ResourceLoader rl = new ResourceLoader();
 	
-	public static Image getImage(String fileName)
+	public Image getImage(String fileName)
 	{
 		System.out.println(fileName);
 		System.out.println(Toolkit.getDefaultToolkit().getImage(rl.getClass().getResource("res/images/" + fileName)));
 		return Toolkit.getDefaultToolkit().getImage("res/images/" + fileName);
 	}
-	public static BufferedImage getBufferedImage(String fileName)
+	public BufferedImage getBufferedImage(String fileName)
 	{
 		System.out.println(fileName);
 		try 
@@ -38,7 +38,7 @@ public class ResourceLoader
 		}
 		return null;
 	}
-	public static AudioClip getAudioClip(String fileName)
+	public AudioClip getAudioClip(String fileName)
 	{
 		try {
 			return Applet.newAudioClip(new File("res/audio/" + fileName).toURI().toURL());

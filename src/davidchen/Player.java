@@ -25,12 +25,14 @@ public class Player extends Entity {
 		keyAdapter = new CustomKeyAdapter();
 		this.health = health; //player needs some health value, was not set before
 		this.dungeon = dungeon;
+		
+		movingRight = true; //for an image at the beginning
 	}
 	public void move() 
 	{
 		if (moving)
 			cycle++;
-		if (cycle > 50)
+		if (cycle > 20)
 			cycle = 0;
 		boolean collision = true;
 		for (Platform platform : dungeon.RoomOrder[dungeon.roomCounter].roomPlatform)
@@ -133,7 +135,7 @@ public class Player extends Entity {
 		else if (movingLeft)
 		{
 			if (moving)
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(cycle/25) * 60), 59, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
+				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(cycle/10) * 60), 59, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
 					, x-60, y-24, /*162, 128,*/ null);
 			else
 				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage(0, 59, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
@@ -142,7 +144,7 @@ public class Player extends Entity {
 		else if (movingRight) 
 		{			
 			if (moving)
-				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(cycle/25) * 60), 0, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
+				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage((int)(Math.floor(cycle/10) * 60), 0, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
 					, x-60, y-24, /*162, 128,*/ null);
 			else
 				g.drawImage(Driver.view.dungeon.playerSpriteSheet.getSubimage(0, 0, 60, 58).getScaledInstance(162, 128, Image.SCALE_DEFAULT) //subimage area
